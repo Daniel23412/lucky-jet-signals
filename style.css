@@ -170,7 +170,7 @@ body, html {
 /* === MINES === */
 .mines-title {
   position: absolute;
-  top: 15px;                    /* ← ниже */
+  top: 5px;                    /* ← ниже */
   left: 50%;
   transform: translateX(-50%);
   font-size: 38px;
@@ -272,6 +272,7 @@ body, html {
   0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); } 
   100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); } 
 }
+
 
 
 
