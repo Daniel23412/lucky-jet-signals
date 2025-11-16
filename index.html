@@ -8,7 +8,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <!-- МЕНЮ — КАРТОЧКИ СЛЕВА И СПРАВА, НАДПИСЬ НИЖЕ -->
+  <!-- МЕНЮ -->
   <div id="menu">
     <div class="games-row">
       <div class="game-card" onclick="openLuckyJet()">
@@ -48,7 +48,7 @@
         </div>
       </div>
      
-      <div class="timer-button">
+      <div class="timer-button" id="lucky-timer">
         <button id="get-signal" onclick="generateLuckySignal()">ПОЛУЧИТЬ СИГНАЛ</button>
         <svg class="progress-ring" width="120" height="120">
           <circle class="progress-ring__circle" stroke="#333" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
@@ -80,7 +80,13 @@
       <div class="mines-info">
         <div>Открыто: <span id="opened">0</span>/25</div>
       </div>
-      <button id="signal-btn" class="blue-btn small" onclick="getMinesSignal()">НОВЫЙ СИГНАЛ</button>
+      <div class="timer-button" id="mines-timer">
+        <button id="signal-btn" class="blue-btn small" onclick="getMinesSignal()">НОВЫЙ СИГНАЛ</button>
+        <svg class="progress-ring" width="180" height="180">
+          <circle class="progress-ring__circle" stroke="#002233" stroke-width="5" fill="transparent" r="80" cx="90" cy="90"/>
+          <circle class="progress-ring__progress" stroke="#00d4ff" stroke-width="7" fill="transparent" r="80" cx="90" cy="90"/>
+        </svg>
+      </div>
     </div>
   </div>
 
@@ -91,7 +97,8 @@ Telegram?.WebApp?.expand();
 let minesCount = 7;
 let minesField = [];
 let isFirstLuckySignal = true;
-let cooldownActive = false;
+let luckyCooldown = false;
+let minesCooldown = false;
 
 const closedCells = [
   "image_95509 (1).svg","image_89353 (1).svg","image_82645 (1).svg","image_75949 (1).svg",
@@ -116,15 +123,15 @@ function startLuckyJet() {
   setTimeout(() => document.getElementById('preloader').style.display = 'none', 1500);
 }
 
-function startCooldown() {
+function startLuckyCooldown() {
   const btn = document.getElementById('get-signal');
-  const progressCircle = document.querySelector('.progress-ring__progress');
-  const timerButton = document.querySelector('.timer-button');
+  const timerBtn = document.getElementById('lucky-timer');
+  const progressCircle = timerBtn.querySelector('.progress-ring__progress');
   
-  cooldownActive = true;
+  luckyCooldown = true;
   btn.disabled = true;
   btn.textContent = "15";
-  timerButton.classList.add('countdown');
+  timerBtn.classList.add('countdown');
 
   const circumference = 2 * Math.PI * 52;
   progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
@@ -134,22 +141,21 @@ function startCooldown() {
   const interval = setInterval(() => {
     timeLeft--;
     btn.textContent = timeLeft > 0 ? timeLeft : "ПОЛУЧИТЬ СИГНАЛ";
-    
     const offset = circumference - (timeLeft / 15) * circumference;
     progressCircle.style.strokeDashoffset = offset;
 
     if (timeLeft <= 0) {
       clearInterval(interval);
-      cooldownActive = false;
+      luckyCooldown = false;
       btn.disabled = false;
-      timerButton.classList.remove('countdown');
+      timerBtn.classList.remove('countdown');
       progressCircle.style.strokeDashoffset = circumference;
     }
   }, 1000);
 }
 
 function generateLuckySignal() {
-  if (cooldownActive) return;
+  if (luckyCooldown) return;
   
   const btn = document.getElementById('get-signal');
   btn.disabled = true;
@@ -167,7 +173,7 @@ function generateLuckySignal() {
     Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`);
     Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
     
-    startCooldown(); // Запуск 15-секундной задержки с анимацией
+    startLuckyCooldown();
   }, 1800);
 }
 
@@ -193,15 +199,50 @@ function setMines(n) {
   event.target.classList.add('active');
 }
 
+function startMinesCooldown() {
+  const btn = document.getElementById('signal-btn');
+  const timerBtn = document.getElementById('mines-timer');
+  const progressCircle = timerBtn.querySelector('.progress-ring__progress');
+  
+  minesCooldown = true;
+  btn.disabled = true;
+  btn.textContent = "10";
+  timerBtn.classList.add('countdown');
+
+  const circumference = 2 * Math.PI * 80;
+  progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+  progressCircle.style.strokeDashoffset = circumference;
+
+  let timeLeft = 10;
+  const interval = setInterval(() => {
+    timeLeft--;
+    btn.textContent = timeLeft > 0 ? timeLeft : "НОВЫЙ СИГНАЛ";
+    const offset = circumference - (timeLeft / 10) * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      minesCooldown = false;
+      btn.disabled = false;
+      timerBtn.classList.remove('countdown');
+      progressCircle.style.strokeDashoffset = circumference;
+    }
+  }, 1000);
+}
+
 function getMinesSignal() {
+  if (minesCooldown) return;
+
   createMinesGrid();
   minesField = Array(25).fill('star');
   const bombs = new Set();
   while (bombs.size < minesCount) bombs.add(Math.floor(Math.random() * 25));
   bombs.forEach(i => minesField[i] = 'bomb');
+  
   const btn = document.getElementById('signal-btn');
   btn.textContent = 'Сигнал...';
   btn.disabled = true;
+
   setTimeout(() => {
     const tiles = document.querySelectorAll('.mine-tile');
     const openCount = minesCount === 1 ? 10 : minesCount === 3 ? 8 : minesCount === 5 ? 6 : 4;
@@ -222,8 +263,8 @@ function getMinesSignal() {
     setTimeout(() => {
       Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nОткрыто ${opened} безопасных ячеек\n\nСтавь — 100% профит!`);
       Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-      btn.textContent = 'НОВЫЙ СИГНАЛ';
-      btn.disabled = false;
+      
+      startMinesCooldown(); // Запуск 10-секундного таймера
     }, openCount * 220 + 1000);
   }, 800);
 }
