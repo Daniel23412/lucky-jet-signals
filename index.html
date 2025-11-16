@@ -15,13 +15,11 @@
         <img src="https://i.ibb.co/23c4Pc2x/luckyjet-preview.jpg" alt="Lucky Jet">
         <div class="game-label">Lucky Jet</div>
       </div>
-
       <div class="game-card" onclick="openMines()">
         <img src="https://i.ibb.co/dZWZcx0/mines-preview.jpg" alt="Mines">
         <div class="game-label">Mines</div>
       </div>
     </div>
-
     <h1>Al GENZO HACK 2025</h1>
   </div>
 
@@ -35,13 +33,13 @@
       <img id="game-bg" src="assets/background.jpg" class="moving-bg">
       <div id="stars"></div>
       <div id="clouds"></div>
-     
+    
       <div id="header-title" style="top: 95px;"><img src="assets/luckyjet_text.svg"></div>
       <div id="preloader">
         <img src="assets/preloader.svg" class="loader">
         <p>Загрузка...</p>
       </div>
-      
+     
       <div id="center-orbit">
         <div id="multiplier">x1.00</div>
         <div id="jetman-container">
@@ -49,9 +47,15 @@
           <img id="fire" src="assets/jetpack_fire.svg">
         </div>
       </div>
-      
-      <button id="get-signal" onclick="generateLuckySignal()">ПОЛУЧИТЬ СИГНАЛ</button>
      
+      <div class="timer-button">
+        <button id="get-signal" onclick="generateLuckySignal()">ПОЛУЧИТЬ СИГНАЛ</button>
+        <svg class="progress-ring" width="120" height="120">
+          <circle class="progress-ring__circle" stroke="#333" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
+          <circle class="progress-ring__progress" stroke="#ba68c8" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
+        </svg>
+      </div>
+    
       <button class="back" onclick="backToMenu()" style="top: 150px;">Назад</button>
     </div>
   </div>
@@ -62,9 +66,7 @@
       <button class="back" onclick="backToMenu()">Назад</button>
       <h2 class="mines-title">Mines</h2>
     </div>
-
     <div id="mines-field"></div>
-
     <div class="mines-panel blue">
       <div class="mines-count">
         <span>Мин:</span>
@@ -85,9 +87,12 @@
 <script>
 Telegram?.WebApp?.ready();
 Telegram?.WebApp?.expand();
+
 let minesCount = 7;
 let minesField = [];
 let isFirstLuckySignal = true;
+let cooldownActive = false;
+
 const closedCells = [
   "image_95509 (1).svg","image_89353 (1).svg","image_82645 (1).svg","image_75949 (1).svg",
   "image_69793 (1).svg","image_63085 (1).svg","image_56929 (1).svg","image_5450 (1).svg",
@@ -111,11 +116,45 @@ function startLuckyJet() {
   setTimeout(() => document.getElementById('preloader').style.display = 'none', 1500);
 }
 
-function generateLuckySignal() {
+function startCooldown() {
   const btn = document.getElementById('get-signal');
-  if (btn.disabled) return;
+  const progressCircle = document.querySelector('.progress-ring__progress');
+  const timerButton = document.querySelector('.timer-button');
+  
+  cooldownActive = true;
+  btn.disabled = true;
+  btn.textContent = "15";
+  timerButton.classList.add('countdown');
+
+  const circumference = 2 * Math.PI * 52;
+  progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+  progressCircle.style.strokeDashoffset = circumference;
+
+  let timeLeft = 15;
+  const interval = setInterval(() => {
+    timeLeft--;
+    btn.textContent = timeLeft > 0 ? timeLeft : "ПОЛУЧИТЬ СИГНАЛ";
+    
+    const offset = circumference - (timeLeft / 15) * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      cooldownActive = false;
+      btn.disabled = false;
+      timerButton.classList.remove('countdown');
+      progressCircle.style.strokeDashoffset = circumference;
+    }
+  }, 1000);
+}
+
+function generateLuckySignal() {
+  if (cooldownActive) return;
+  
+  const btn = document.getElementById('get-signal');
   btn.disabled = true;
   btn.textContent = "Проверка...";
+
   setTimeout(() => {
     let coeff;
     if (isFirstLuckySignal) {
@@ -127,8 +166,8 @@ function generateLuckySignal() {
     document.getElementById('multiplier').textContent = `x${coeff}`;
     Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`);
     Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-    btn.textContent = "ПОЛУЧИТЬ СИГНАЛ";
-    btn.disabled = false;
+    
+    startCooldown(); // Запуск 15-секундной задержки с анимацией
   }, 1800);
 }
 
@@ -191,4 +230,3 @@ function getMinesSignal() {
 </script>
 </body>
 </html>
-
