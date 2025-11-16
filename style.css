@@ -10,7 +10,7 @@ body, html {
 }
 .hidden { display:none !important; }
 
-/* === МЕНЮ === */
+/* === МЕНЮ — ОБНОВЛЕНО С КАРТОЧКАМИ === */
 #menu {
   height:100vh;
   display:flex;
@@ -19,28 +19,56 @@ body, html {
   align-items:center;
   background:radial-gradient(circle at center,#1a0033,#000);
   text-align:center;
+  gap: 40px;
+  padding: 20px;
 }
+
 #menu h1 {
   font-size:42px;
-  margin-bottom:80px;
+  margin: 0 0 20px 0;
   text-shadow:0 0 30px #e040fb;
+  color: #fff;
 }
-.game-btn {
-  width:88%;
-  max-width:380px;
-  margin:15px;
-  padding:28px;
-  background:linear-gradient(45deg,#9c27b0,#d81b60);
-  border:none;
-  border-radius:30px;
-  color:#fff;
-  font-size:28px;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 14px 45px rgba(156,39,176,0.7);
-  transition:0.3s;
+
+.game-card {
+  width: 88%;
+  max-width: 380px;
+  cursor: pointer;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 14px 45px rgba(156,39,176,0.7);
+  transition: all 0.3s ease;
+  position: relative;
 }
-.game-btn:hover { transform:scale(1.06); }
+
+.game-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 24px;
+}
+
+.game-card .game-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.8));
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 30px 20px 20px;
+  text-align: center;
+  text-shadow: 0 0 15px #000;
+}
+
+.game-card:hover {
+  transform: scale(1.06);
+  box-shadow: 0 20px 60px rgba(156,39,176,0.9);
+}
+
+/* Скрываем старые кнопки */
+.game-btn { display: none !important; }
 
 /* === ОБЩЕЕ === */
 .game-screen {
@@ -157,10 +185,10 @@ body, html {
 }
 #get-signal:disabled { background:#666; }
 
-/* === MINES — НОВЫЙ ХЕДЕР === */
+/* === MINES — ХЕДЕР ВЫШЕ === */
 #mines-header {
   position: absolute;
-  top: 20px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -176,7 +204,7 @@ body, html {
 
 #mines-header .back {
   position: relative;
-  top: -100px;
+  top: auto;
   left: auto;
   transform: none;
   font-size: 28px;
@@ -192,8 +220,8 @@ body, html {
 
 #mines-header .mines-title {
   position: relative;
-  top: -100px;
-  left: 20px;
+  top: auto;
+  left: auto;
   transform: none;
   margin: 0 auto;
   font-size: 42px;
@@ -203,14 +231,16 @@ body, html {
   pointer-events: none;
 }
 
+/* СЕТКА НИЖЕ */
 #mines-field {
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:11px;
   max-width:460px;
-  margin:180px auto 0 !important;
+  margin:170px auto 0 !important;
   padding:0 15px;
 }
+
 .mine-tile {
   position:relative;
   aspect-ratio:1;
@@ -295,12 +325,3 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
-
-
-
-
-
-
-
-
-
