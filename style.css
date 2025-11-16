@@ -176,21 +176,21 @@ body, html {
 /* === УВЕЛИЧЕННАЯ КНОПКА LUCKY JET === */
 #lucky-timer {
   position: absolute;
-  bottom: 5%;
+  bottom: 9%;
   left: 50%;
-  transform: translateX(-30%);
+  transform: translateX(-50%);
 }
 #get-signal {
   position: relative;
   background: #9c27b0;
   color: #fff;
   border: none;
-  padding: 28px 65px;
-  border-radius: 60px;
+  padding: 20px 55px;
+  border-radius: 40px;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 20px;
   cursor: pointer;
-  box-shadow: 0 0 45px #ba68c8;
+  box-shadow: 0 0 35px #ba68c8;
   z-index: 2;
   transition: all 0.3s ease;
   white-space: nowrap;
@@ -404,6 +404,7 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
 
 
 
