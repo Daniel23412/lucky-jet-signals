@@ -22,26 +22,26 @@ body, html {
   background:radial-gradient(circle at center, #1a0033, #000);
 }
 #menu h1 { 
-  font-size:34px; 
-  margin-bottom:60px; 
-  text-shadow:0 0 20px #e040fb; 
+  font-size:38px; 
+  margin-bottom:80px; 
+  text-shadow:0 0 25px #e040fb; 
 }
 .game-btn { 
   width:88%; 
   max-width:380px; 
   margin:20px auto; 
-  padding:26px; 
+  padding:28px; 
   background:linear-gradient(45deg,#9c27b0,#d81b60); 
   border:none; 
-  border-radius:28px; 
+  border-radius:30px; 
   color:#fff; 
-  font-size:26px; 
+  font-size:28px; 
   font-weight:bold; 
   cursor:pointer; 
-  box-shadow:0 12px 40px rgba(156,39,176,0.6); 
+  box-shadow:0 14px 45px rgba(156,39,176,0.7); 
   transition:all .3s;
 }
-.game-btn:hover { transform:scale(1.06); box-shadow:0 18px 50px rgba(156,39,176,0.8); }
+.game-btn:hover { transform:scale(1.06); box-shadow:0 20px 55px rgba(156,39,176,0.9); }
 
 /* ====================== LUCKY JET ====================== */
 #preview { 
@@ -121,33 +121,24 @@ body, html {
 }
 .back { 
   position:absolute; left:15px; background:none; border:none; color:#fff; 
-  font-size:24px; cursor:pointer; 
+  font-size:28px; cursor:pointer; 
 }
 
-#mines-field { 
-  display:grid; grid-template-columns:repeat(5,1fr); gap:12px; 
-  padding:90px 20px 180px; max-width:460px; margin:0 auto; 
+#mines-field {
+  position: relative;
+  padding-top: 80px;
+  text-align: center;
 }
-.tile { 
-  position:relative; aspect-ratio:1; background:#1e0039; border-radius:16px; 
-  overflow:hidden; cursor:pointer; 
-  box-shadow:0 8px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(138,43,226,0.2); 
-  transition:all .2s; 
-}
-.tile:hover:not(.opened) { transform:scale(1.06); }
-.tile.opened { transform:scale(0.96); }
 
-.tile-img { width:100%; height:100%; object-fit:contain; pointer-events:none; }
-.tile-star { 
-  width:72%; height:72%; position:absolute; top:50%; left:50%; 
-  transform:translate(-50%,-50%); z-index:2; 
+#mines-svg {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  cursor: default;
+  user-select: none;
 }
-.tile-frame { 
-  width:100%; height:100%; position:absolute; top:0; left:0; z-index:1; 
-  pointer-events:none; 
-}
-.tile.opened .tile-star { animation:pop 0.4s ease-out; }
-.tile.opened .tile-frame { animation:frameGlow 0.6s ease-out; }
 
 .mines-panel { 
   position:fixed; bottom:0; left:0; width:100%; 
@@ -155,32 +146,28 @@ body, html {
   padding:22px 15px; text-align:center; 
   border-top:2px solid #9c27b0; box-shadow:0 -10px 40px rgba(156,39,176,0.4); 
 }
-.mines-count span { font-size:19px; margin-right:12px; }
+.mines-count span { font-size:19px; margin-right:12px; color:#e91e63; }
 .count-btns button { 
   margin:0 5px; padding:10px 16px; background:#333; border:none; 
   border-radius:12px; color:#fff; font-weight:bold; cursor:pointer; 
+  transition:all .2s;
 }
-.count-btns button.active { background:#9c27b0; box-shadow:0 0 18px #9c27b0; }
+.count-btns button.active { 
+  background:#9c27b0; box-shadow:0 0 18px #9c27b0; transform:scale(1.1);
+}
 
 .mines-info { margin:18px 0; font-size:22px; }
-#coeff { color:#00ff9d; font-size:38px; font-weight:bold; text-shadow:0 0 20px #00ff9d; }
+#coeff { color:#00ff9d; font-size:42px; font-weight:bold; text-shadow:0 0 20px #00ff9d; }
 
-#cashout { 
-  background:#00ff00; color:#000; padding:20px 60px; border-radius:50px; 
-  font-size:24px; font-weight:bold; margin:8px; cursor:pointer; 
-  box-shadow:0 10px 30px rgba(0,255,0,0.5); 
-}
-#play-mines, #signal-btn { 
-  padding:20px 60px; border-radius:50px; font-size:24px; 
-  font-weight:bold; margin:8px; cursor:pointer; 
-  box-shadow:0 10px 30px rgba(156,39,176,0.5); 
-}
-#play-mines { background:#9c27b0; color:#fff; }
 #signal-btn { 
-  background:linear-gradient(45deg,#ff6b35,#f7931e); color:#fff; 
-  display:none; box-shadow:0 10px 30px rgba(255,107,53,0.5); 
+  background:linear-gradient(45deg,#ff6b35,#f7931e); 
+  color:#fff; padding:22px 70px; border-radius:50px; 
+  font-size:26px; font-weight:bold; border:none; cursor:pointer;
+  box-shadow:0 12px 35px rgba(255,107,53,0.6); margin:10px;
+  transition:all .3s;
 }
-#signal-btn:hover:not(:disabled), #play-mines:hover, #cashout:hover { transform:scale(1.05); }
+#signal-btn:hover:not(:disabled) { transform:scale(1.07); }
+#signal-btn:disabled { opacity:0.6; cursor:not-allowed; }
 
 /* ====================== АНИМАЦИИ ====================== */
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
@@ -190,5 +177,11 @@ body, html {
 @keyframes clouds { from { background-position:0 0; } to { background-position:-300px 0; } }
 @keyframes fire { 0% { opacity:0.8; transform:scale(1) translateY(0); } 100% { opacity:1; transform:scale(1.15) translateY(-6px); } }
 @keyframes orbit { 0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); } 100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); } }
-@keyframes pop { 0% { transform:translate(-50%,-50%) scale(0); } 70% { transform:translate(-50%,-50%) scale(1.2); } 100% { transform:translate(-50%,-50%) scale(1); } }
-@keyframes frameGlow { 0% { opacity:0; transform:scale(0.9); } 100% { opacity:1; transform:scale(1); } }
+
+/* Адаптив */
+@media (max-width: 380px) {
+  #menu h1 { font-size:32px; }
+  .game-btn { font-size:24px; padding:24px; }
+  #multiplier { font-size:64px; }
+  #signal-btn { padding:20px 50px; font-size:24px; }
+}
