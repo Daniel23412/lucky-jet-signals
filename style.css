@@ -200,7 +200,7 @@ body, html {
   cursor: not-allowed;
 }
 #lucky-timer .progress-ring {
-  width: 160px; height: 160px;
+  width: 110px; height: 110px;
 }
 #lucky-timer .progress-ring__circle {
   stroke-width: 5;
@@ -404,3 +404,4 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
