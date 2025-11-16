@@ -30,35 +30,35 @@
       position:relative;
     }
 
-    /* Флаги переключения языка */
+    /* Флаги — НИЖЕ ИГР */
     .lang-switcher {
-      position: absolute;
-      top: 20px;
-      right: 20px;
       display: flex;
-      gap: 10px;
+      gap: 18px;
+      margin: 30px 0 20px;
       z-index: 1000;
     }
     .lang-flag {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      box-shadow: 0 0 18px rgba(255,255,255,0.3);
       opacity: 0.7;
+      border: 2px solid rgba(255,255,255,0.1);
     }
     .lang-flag.active {
       opacity: 1;
-      transform: scale(1.15);
-      box-shadow: 0 0 25px rgba(255,255,255,0.6);
+      transform: scale(1.18);
+      box-shadow: 0 0 30px rgba(255,255,255,0.7);
+      border-color: #fff;
     }
 
     #menu .games-row {
       display: flex;
       justify-content: center;
       gap: 30px;
-      margin-bottom: 60px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
     .game-card {
@@ -415,14 +415,7 @@
 <body>
 
   <!-- МЕНЮ -->
- ––
   <div id="menu">
-    <!-- Переключатель языка -->
-    <div class="lang-switcher">
-      <img src="https://flagcdn.com/48x36/ru.png" alt="RU" class="lang-flag active" onclick="setLanguage('ru')">
-      <img src="https://flagcdn.com/48x36/gb.png" alt="EN" class="lang-flag" onclick="setLanguage('en')">
-    </div>
-
     <div class="games-row">
       <div class="game-card" onclick="openLuckyJet()">
         <img src="https://i.ibb.co/23c4Pc2x/luckyjet-preview.jpg" alt="Lucky Jet">
@@ -433,6 +426,14 @@
         <div class="game-label" data-key="mines">Mines</div>
       </div>
     </div>
+
+    <!-- ФЛАГИ НИЖЕ -->
+    <div class="lang-switcher">
+      <img src="https://flagcdn.com/48x36/ru.png" alt="RU" class="lang-flag active" onclick="setLanguage('ru')">
+      <img src="https://flagcdn.com/48x36/gb.png" alt="EN" class="lang-flag" onclick="setLanguage('en')">
+      <img src="https://flagcdn.com/48x36/tr.png" alt="TR" class="lang-flag" onclick="setLanguage('tr')">
+    </div>
+
     <h1 data-key="title">Al GENZO HACK 2025</h1>
   </div>
 
@@ -440,7 +441,7 @@
   <div id="luckyjet" class="game-screen hidden">
     <div id="preview" onclick="startLuckyJet()">
       <img src="assets/preview.png" alt="Lucky Jet">
-      <div class="play-btn" data-key="play">ИГРАТЬ</div>
+      <div class="play-btn" data-key="play">İGRA</div>
     </div>
     <div id="lucky-game" class="hidden">
       <img id="game-bg" src="assets/background.jpg" class="moving-bg">
@@ -449,7 +450,7 @@
       <div id="header-title" style="top: 95px;"><img src="assets/luckyjet_text.svg"></div>
       <div id="preloader">
         <img src="assets/preloader.svg" class="loader">
-        <p data-key="loading">Загрузка...</p>
+        <p data-key="loading">Yükleniyor...</p>
       </div>
       <div id="center-orbit">
         <div id="multiplier">x1.00</div>
@@ -459,25 +460,25 @@
         </div>
       </div>
       <div class="timer-button" id="lucky-timer">
-        <button id="get-signal" onclick="generateLuckySignal()" data-key="get_signal">ПОЛУЧИТЬ СИГНАЛ</button>
+        <button id="get-signal" onclick="generateLuckySignal()" data-key="get_signal">SİNYAL AL</button>
         <svg class="progress-ring" width="160" height="160">
           <circle class="progress-ring__circle" stroke="#333" stroke-width="5" fill="transparent" r="72" cx="80" cy="80"/>
           <circle class="progress-ring__progress" stroke="#ba68c8" stroke-width="8" fill="transparent" r="72" cx="80" cy="80"/>
         </svg>
       </div>
-      <button class="back" onclick="backToMenu()" data-key="back">Назад</button>
+      <button class="back" onclick="backToMenu()" data-key="back">Geri</button>
     </div>
   </div>
 
   <!-- MINES -->
   <div id="mines" class="game-screen hidden">
     <div id="mines-header">
-      <button class="back" onclick="backToMenu()" data-key="back">Назад</button>
+      <button class="back" onclick="backToMenu()" data-key="back">Geri</button>
       <h2 class="mines-title" data-key="mines">Mines</h2>
     </div>
     <div class="mines-controls">
       <div class="mines-count">
-        <span data-key="mines_count">Мин:</span>
+        <span data-key="mines_count">Mayın:</span>
         <div class="count-btns">
           <button onclick="setMines(1)">1</button>
           <button onclick="setMines(3)">3</button>
@@ -486,13 +487,13 @@
         </div>
       </div>
       <div class="mines-info">
-        <span data-key="opened_text">Открыто:</span> <span id="opened">0</span>/25
+        <span data-key="opened_text">Açıldı:</span> <span id="opened">0</span>/25
       </div>
     </div>
     <div id="mines-field"></div>
     <div class="mines-panel blue">
       <div class="timer-button" id="mines-timer">
-        <button id="signal-btn" onclick="getMinesSignal()" data-key="new_signal">НОВЫЙ СИГНАЛ</button>
+        <button id="signal-btn" onclick="getMinesSignal()" data-key="new_signal">YENİ SİNYAL</button>
         <svg class="progress-ring" width="180" height="180">
           <circle class="progress-ring__circle" stroke="#002233" stroke-width="5" fill="transparent" r="80" cx="90" cy="90"/>
           <circle class="progress-ring__progress" stroke="#00d4ff" stroke-width="7" fill="transparent" r="80" cx="90" cy="90"/>
@@ -518,8 +519,8 @@ const translations = {
     mines_count: "Мин:",
     opened_text: "Открыто:",
     new_signal: "НОВЫЙ СИГНАЛ",
-    alert_lucky: (coeff) => `СИГНАЛ x${coeff}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`,
-    alert_mines: (count) => `СИГНАЛ ГОТОВ!\nОткрыто ${count} безопасных ячеек\n\nСтавь — 100% профит!`
+    alert_lucky: (c) => `СИГНАЛ x${c}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`,
+    alert_mines: (n) => `СИГНАЛ ГОТОВ!\nОткрыто ${n} безопасных ячеек\n\nСтавь — 100% профит!`
   },
   en: {
     title: "Al GENZO HACK 2025",
@@ -532,12 +533,26 @@ const translations = {
     mines_count: "Mines:",
     opened_text: "Opened:",
     new_signal: "NEW SIGNAL",
-    alert_lucky: (coeff) => `SIGNAL x${coeff}\n100% FLY — CASH OUT EARLY!`,
-    alert_mines: (count) => `SIGNAL READY!\n${count} safe cells opened\n\nBet — 100% profit!`
+    alert_lucky: (c) => `SIGNAL x${c}\n100% FLY — CASH OUT EARLY!`,
+    alert_mines: (n) => `SIGNAL READY!\n${n} safe cells opened\n\nBet — 100% profit!`
+  },
+  tr: {
+    title: "Al GENZO HACK 2025",
+    luckyjet: "Lucky Jet",
+    mines: "Mines",
+    play: "OYNA",
+    loading: "Yükleniyor...",
+    get_signal: "SİNYAL AL",
+    back: "Geri",
+    mines_count: "Mayın:",
+    opened_text: "Açıldı:",
+    new_signal: "YENİ SİNYAL",
+    alert_lucky: (c) => `SİNYAL x${c}\n%100 UÇUŞ — BELİRTİLEN DEN ÖNCE ÇEK!`,
+    alert_mines: (n) => `SİNYAL HAZIR!\n${n} güvenli hücre açıldı\n\nBahis yap — %100 kâr!`
   }
 };
 
-let currentLang = 'ru';
+let currentLang = 'tr'; // По умолчанию — Турция
 
 // === УСТАНОВКА ЯЗЫКА ===
 function setLanguage(lang) {
@@ -548,17 +563,13 @@ function setLanguage(lang) {
     const key = el.getAttribute('data-key');
     const text = translations[lang][key];
     if (typeof text === 'function') return;
-    el.textContent = text || el.textContent;
+    el.textContent = text;
   });
 
   document.querySelectorAll('.lang-flag').forEach(f => {
-    f.classList.remove('active');
-    if (f.getAttribute('alt').toLowerCase() === lang) {
-      f.classList.add('active');
-    }
+    f.classList.toggle('active', f.getAttribute('alt').toUpperCase() === lang.toUpperCase());
   });
 
-  // Обновляем кнопки
   const getSignalBtn = document.getElementById('get-signal');
   if (getSignalBtn) getSignalBtn.textContent = translations[lang].get_signal;
 
@@ -566,12 +577,13 @@ function setLanguage(lang) {
   if (newSignalBtn) newSignalBtn.textContent = translations[lang].new_signal;
 }
 
-// Автоопределение языка
+// Автоопределение
 if (Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
-  const userLang = Telegram.WebApp.initDataUnsafe.user.language_code;
-  setLanguage(userLang.startsWith('ru') ? 'ru' : 'en');
+  const code = Telegram.WebApp.initDataUnsafe.user.language_code.toLowerCase();
+  const lang = code.includes('tr') ? 'tr' : code.includes('ru') ? 'ru' : 'en';
+  setLanguage(lang);
 } else {
-  setLanguage('ru');
+  setLanguage('tr');
 }
 
 // === НАВИГАЦИЯ ===
@@ -623,13 +635,8 @@ function generateLuckySignal() {
   btn.disabled = true;
   btn.textContent = translations[currentLang].loading;
   setTimeout(() => {
-    let coeff;
-    if (isFirstLuckySignal) {
-      coeff = 4.20;
-      isFirstLuckySignal = false;
-    } else {
-      coeff = (Math.random() * 18.5 + 1.5).toFixed(2);
-    }
+    let coeff = isFirstLuckySignal ? 4.20 : (Math.random() * 18.5 + 1.5).toFixed(2);
+    isFirstLuckySignal = false;
     document.getElementById('multiplier').textContent = `x${coeff}`;
     Telegram?.WebApp?.showAlert(translations[currentLang].alert_lucky(coeff));
     Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
@@ -642,6 +649,7 @@ let minesCount = 7;
 let minesField = [];
 let minesCooldown = false;
 
+// ИСПРАВЛЕННЫЙ SVG
 const closedCells = [
   "image_95509 (1).svg","image_89353 (1).svg","image_82645 (1).svg","image_75949 (1).svg",
   "image_69793 (1).svg","image_63085 (1).svg","image_56929 (1).svg","image_5450 (1).svg",
@@ -738,4 +746,3 @@ function getMinesSignal() {
 </script>
 </body>
 </html>
-
