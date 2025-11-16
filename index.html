@@ -89,7 +89,7 @@
         currentCoeff = (Math.random() * 13.5 + 1.5).toFixed(2);
         updateCoeff(currentCoeff);
         Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-        Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${currentCoeff}\nСтавь быстро — улёт близко!`);
+        Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${currentCoeff}\nСтавь быстро — забирай раньше чем указано!`);
       }, 1500);
     }
 
@@ -99,3 +99,4 @@
   </script>
 </body>
 </html>
+
