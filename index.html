@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lucky Jet Сигналы</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Telegram WebApp (необязательно, но лучше оставить) -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-
   <!-- ПРЕВЬЮ -->
   <div id="preview" onclick="startGame()">
     <img src="assets/preview.png" alt="Lucky Jet Preview" />
@@ -16,45 +17,43 @@
 
   <!-- ИГРА -->
   <div id="game" class="hidden">
-    <!-- ФОН -->
     <img id="game-bg" src="assets/background.jpg" />
     <div id="stars"></div>
     <div id="clouds"></div>
 
-    <!-- НАДПИСЬ "LUCKYJET" СВЕРХУ -->
-    <div id="header-title" class="hidden">
+    <!-- Логотип сверху (чуть опущен) -->
+    <div id="header-title">
       <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
     </div>
 
-    <!-- PRELOADER -->
+    <!-- Прелоадер -->
     <div id="preloader">
       <img src="assets/preloader.svg" class="loader" />
       <p>Загрузка...</p>
     </div>
 
-    <!-- ЦЕНТР: ОРБИТА -->
+    <!-- Орбита и джетмен -->
     <div id="center-orbit">
-      <!-- КОЭФФИЦИЕНТ -->
       <div id="multiplier">x2.18</div>
-
-      <!-- ДЖЕТМЕН + ОГОНЬ (В ОДНОМ КОНТЕЙНЕРЕ) -->
       <div id="jetman-container">
         <img id="jetman" src="assets/jetman.png" />
         <img id="fire" src="assets/jetpack_fire.svg" />
       </div>
     </div>
 
-    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" -->
+    <!-- Кнопка сигнала -->
     <button id="get-signal" onclick="generateSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
   </div>
 
   <script>
+    Telegram?.WebApp?.ready();
+    Telegram?.WebApp?.expand();
+
     let currentCoeff = 2.18;
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
       document.getElementById('game').classList.remove('hidden');
-
       setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
         document.getElementById('header-title').classList.remove('hidden');
@@ -63,13 +62,13 @@
     }
 
     function generateSignal() {
-      currentCoeff = 4.56;
+      currentCoeff = (Math.random() * 13.5 + 1.5).toFixed(2);
       updateCoeff(currentCoeff);
+      Telegram?.WebApp?.HapticFeedback?.impactOccurred('medium');
     }
 
     function updateCoeff(coeff) {
-      const formatted = coeff.toFixed(2);
-      document.getElementById('multiplier').textContent = `x${formatted}`;
+      document.getElementById('multiplier').textContent = `x${Number(coeff).toFixed(2)}`;
     }
   </script>
 </body>
