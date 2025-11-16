@@ -36,16 +36,16 @@
     <img id="jetman" src="assets/jetman.png" />
     <img id="fire" src="assets/jetpack_fire.svg" />
 
-    <!-- КОЭФФИЦИЕНТ -->
-    <div id="multiplier">x3.21</div>
+    <!-- КОЭФФИЦИЕНТ — ФИОЛЕТОВЫЙ, ПО ЦЕНТРУ -->
+    <div id="multiplier">x2.18</div>
 
-    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" — ВИДНА СРАЗУ -->
+    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" — ФИОЛЕТОВАЯ, ТЕКСТ БЕЛЫЙ -->
     <button id="get-signal" onclick="generateSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
   </div>
 
   <script>
     // МЕНЯЙ КОЭФФИЦИЕНТ ЗДЕСЬ!
-    let currentCoeff = 3.21; // ← Первый сигнал (после старта)
+    let currentCoeff = 2.18; // ← Первый сигнал
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
@@ -54,22 +54,18 @@
       setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
         document.getElementById('header-title').classList.remove('hidden');
-        updateDisplay(currentCoeff);
+        updateCoeff(currentCoeff);
       }, 3000);
     }
 
     function generateSignal() {
       currentCoeff = 4.56; // ← МЕНЯЙ ЗДЕСЬ (следующий сигнал)
-      updateDisplay(currentCoeff);
+      updateCoeff(currentCoeff);
     }
 
-    function updateDisplay(coeff) {
+    function updateCoeff(coeff) {
       const formatted = coeff.toFixed(2);
       document.getElementById('multiplier').textContent = `x${formatted}`;
-      document.getElementById('get-signal').textContent = `СИГНАЛ: x${formatted} → ВЫВОД!`;
-      document.getElementById('get-signal').style.background = 'linear-gradient(45deg, #0f0, #0c0)';
-      document.getElementById('get-signal').style.boxShadow = '0 0 20px #0f0';
-      document.getElementById('get-signal').style.animation = 'blink 1s infinite';
     }
   </script>
 </body>
