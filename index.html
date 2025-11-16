@@ -11,52 +11,54 @@
 
   <!-- ГЛАВНОЕ МЕНЮ -->
   <div id="menu">
-    <h1>Выбери игру</h1>
-    <button class="game-btn" onclick="openLuckyJet()">Lucky Jet Сигналы</button>
-    <button class="game-btn" onclick="openMines()">Мины Сигналы</button>
+    <h1>СИГНАЛЫ 2025</h1>
+    <button class="game-btn" onclick="openLuckyJet()">Lucky Jet</button>
+    <button class="game-btn" onclick="openMines()">Мины</button>
   </div>
 
   <!-- LUCKY JET -->
   <div id="luckyjet" class="game-screen hidden">
-    <div id="preview" onclick="startLuckyJetGame()">
-      <img src="assets/preview.png" alt="Lucky Jet Preview" />
+    <div id="preview" onclick="document.getElementById('lucky-game').classList.remove('hidden'); this.classList.add('hidden')">
+      <img src="assets/preview.png" alt="Lucky Jet">
       <div class="play-btn">ИГРАТЬ</div>
     </div>
 
     <div id="lucky-game" class="hidden">
-      <img id="game-bg" src="assets/background.jpg" />
+      <img id="game-bg" src="assets/background.jpg">
       <div id="stars"></div>
       <div id="clouds"></div>
-      <div id="header-title"><img src="assets/luckyjet_text.svg" alt="Lucky Jet" /></div>
-      <div id="preloader"><img src="assets/preloader.svg" class="loader" /><p>Загрузка...</p></div>
+      <div id="header-title"><img src="assets/luckyjet_text.svg"></div>
+      <div id="preloader"><img src="assets/preloader.svg" class="loader"><p>Загрузка...</p></div>
       <div id="center-orbit">
-        <div id="multiplier"></div>
+        <div id="multiplier">x1.00</div>
         <div id="jetman-container">
-          <img id="jetman" src="assets/jetman.png" />
-          <img id="fire" src="assets/jetpack_fire.svg" />
+          <img id="jetman" src="assets/jetman.png">
+          <img id="fire" src="assets/jetpack_fire.svg">
         </div>
       </div>
       <button id="get-signal" onclick="generateLuckySignal()">ПОЛУЧИТЬ СИГНАЛ</button>
     </div>
   </div>
 
-  <!-- МИНЫ -->
+  <!-- МИНЫ — полностью автоматический режим с твоей SVG-сеткой -->
   <div id="mines" class="game-screen hidden">
     <div class="mines-header">
       <button class="back" onclick="backToMenu()">Назад</button>
-      <h2>Мины</h2>
+      <h2>Мины — Автосигнал</h2>
     </div>
 
-    <div id="mines-field"></div>
+    <div id="mines-field">
+      <object type="image/svg+xml" data="assets/mines/grid.svg" id="mines-svg"></object>
+    </div>
 
     <div class="mines-panel">
       <div class="mines-count">
         <span>Мин:</span>
         <div class="count-btns">
+          <button onclick="setMines(1)" class="active">1</button>
           <button onclick="setMines(3)">3</button>
           <button onclick="setMines(5)">5</button>
-          <button onclick="setMines(10)" class="active">10</button>
-          <button onclick="setMines(15)">15</button>
+          <button onclick="setMines(10)">10</button>
           <button onclick="setMines(20)">20</button>
         </div>
       </div>
@@ -66,8 +68,6 @@
         <div>Открыто: <span id="opened">0</span>/25</div>
       </div>
 
-      <button id="cashout" onclick="cashoutMines()" disabled>ЗАБРАТЬ</button>
-      <button id="play-mines" onclick="startMinesRound()">ИГРАТЬ</button>
       <button id="signal-btn" onclick="getMinesSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
     </div>
   </div>
@@ -76,15 +76,21 @@
     Telegram?.WebApp?.ready();
     Telegram?.WebApp?.expand();
 
-    // === НАСТРОЙКИ ===
-    const FIRST_LUCKY_COEFF = 4.20;  // ← Меняй свой первый сигнал здесь
-    let luckyCanGetSignal = true;
+    // === ГЛОБАЛЬНЫЕ ===
+    const FIRST_LUCKY_COEFF = 4.20;
     let luckyIsFirst = true;
+    let luckyCanGetSignal = true;
 
-    let minesCount = 10;
+    let minesCount = 1;
     let minesField = [];
     let minesOpened = 0;
     let minesActive = false;
+    let svgDoc = null;
+
+    // === ДОСТУП К SVG ===
+    document.getElementById('mines-svg').addEventListener('load', () => {
+      svgDoc = document.getElementById('mines-svg').contentDocument;
+    });
 
     // === МЕНЮ ===
     function openLuckyJet() { hideAll(); document.getElementById('luckyjet').classList.remove('hidden'); }
@@ -92,35 +98,26 @@
     function backToMenu()   { hideAll(); document.getElementById('menu').classList.remove('hidden'); }
     function hideAll() { document.querySelectorAll('.game-screen, #menu').forEach(el => el.classList.add('hidden')); }
 
-    // === LUCKY JET ===
-    function startLuckyJetGame() {
-      document.getElementById('preview').classList.add('hidden');
-      document.getElementById('lucky-game').classList.remove('hidden');
-      setTimeout(() => {
-        document.getElementById('preloader').classList.add('hidden');
-        document.getElementById('header-title').classList.remove('hidden');
-      }, 3000);
-    }
-
+    // === LUCKY JET СИГНАЛ ===
     function generateLuckySignal() {
       if (!luckyCanGetSignal) return;
       luckyCanGetSignal = false;
       const btn = document.getElementById('get-signal');
-      btn.textContent = "Проверка... 30"; btn.disabled = true; btn.style.background = "#666";
+      btn.textContent = "Проверка... 30"; btn.disabled = true;
 
       let sec = 30;
       const timer = setInterval(() => {
         sec--;
         btn.textContent = `Проверка... ${sec}`;
-        if (sec <= 0) { clearInterval(timer); btn.textContent = "ПОЛУЧИТЬ СИГНАЛ"; btn.style.background = "#9c27b0"; btn.disabled = false; luckyCanGetSignal = true; }
+        if (sec <= 0) { clearInterval(timer); btn.textContent = "ПОЛУЧИТЬ СИГНАЛ"; btn.disabled = false; luckyCanGetSignal = true; }
       }, 1000);
 
       setTimeout(() => {
-        const coeff = luckyIsFirst ? FIRST_LUCKY_COEFF : (Math.random() * (8.30 - 1.10) + 1.10).toFixed(2);
+        const coeff = luckyIsFirst ? FIRST_LUCKY_COEFF : (Math.random() * 7 + 1.1).toFixed(2);
         luckyIsFirst = false;
-        document.getElementById('multiplier').textContent = `x${Number(coeff).toFixed(2)}`;
+        document.getElementById('multiplier').textContent = `x${coeff}`;
+        Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nСтавь быстро — улёт 100%`);
         Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-        Telegram?.WebApp?.showAlert(`СИГНАЛ x${Number(coeff).toFixed(2)}\nСтавь быстро!`);
       }, 1500);
     }
 
@@ -131,96 +128,71 @@
       event.target.classList.add('active');
     }
 
-    function startMinesRound() {
+    function getMinesSignal() {
       if (minesActive) return;
-      minesActive = true; minesOpened = 0;
+
+      minesActive = true;
+      minesOpened = 0;
       document.getElementById('coeff').textContent = '1.00';
       document.getElementById('opened').textContent = '0';
-      document.getElementById('cashout').disabled = false;
-      document.getElementById('signal-btn').style.display = 'inline-block';
-      document.getElementById('play-mines').textContent = 'Раунд идёт...';
-
-      // Гарантируем, что первые 15 ячеек безопасны
-      minesField = Array(25).fill('star');
-      const bombs = new Set();
-      while (bombs.size < minesCount) {
-        const pos = Math.floor(Math.random() * 10) + 15; // только с 15 по 24
-        bombs.add(pos);
-      }
-      bombs.forEach(i => minesField[i] = 'bomb');
-
-      renderMinesField();
-    }
-
-    function renderMinesField() {
-      const field = document.getElementById('mines-field');
-      field.innerHTML = '';
-      minesField.forEach((type, i) => {
-        const tile = document.createElement('div');
-        tile.className = 'tile';
-        tile.innerHTML = `<img src="assets/mines/tile_closed.svg" class="tile-img">`;
-        tile.onclick = () => openMinesTile(i, tile);
-        field.appendChild(tile);
-      });
-    }
-
-    // СИГНАЛ — ОТКРЫВАЕТ 10 ЗВЁЗД АВТОМАТИЧЕСКИ
-    function getMinesSignal() {
-      if (!minesActive || minesOpened >= 10) return;
-
-      document.getElementById('signal-btn').disabled = true;
       document.getElementById('signal-btn').textContent = 'Сигнал...';
-      document.getElementById('play-mines').disabled = true;
+      document.getElementById('signal-btn').disabled = true;
 
-      setTimeout(() => {
-        const tiles = document.querySelectorAll('.tile');
-        let openedInSignal = 0;
+      // Скрываем все звёзды
+      if (svgDoc) for (let i = 1; i <= 25; i++) {
+        const star = svgDoc.getElementById(`star-${i}`);
+        if (star) star.setAttribute('opacity', '0');
+      }
 
-        for (let i = 0; i < 25 && openedInSignal < 10; i++) {
-          if (minesField[i] === 'star' && !tiles[i].classList.contains('opened')) {
-            setTimeout(() => openMinesTile(i, tiles[i], true), openedInSignal * 160);
-            openedInSignal++;
-          }
+      // Генерируем поле
+      minesField = Array(25).fill('star');
+      for (let i = 0; i < minesCount; i++) {
+        minesField[24 - i] = 'bomb'; // бомбы в конце
+      }
+
+      // Сколько откроем безопасных
+      const safeCount = 25 - minesCount;
+      const openCount = Math.max(10, Math.floor(safeCount * 0.92));
+
+      // Перемешиваем безопасные индексы
+      const safeIndices = [];
+      for (let i = 0; i < 25; i++) if (minesField[i] === 'star') safeIndices.push(i);
+      for (let i = safeIndices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [safeIndices[i], safeIndices[j]] = [safeIndices[j], safeIndices[i]];
+      }
+
+      // Открываем с анимацией
+      let opened = 0;
+      const interval = setInterval(() => {
+        if (opened >= openCount) {
+          clearInterval(interval);
+          const finalCoeff = (1 + opened * 0.15).toFixed(2);
+          document.getElementById('coeff').textContent = finalCoeff;
+          document.getElementById('opened').textContent = opened;
+
+          setTimeout(() => {
+            Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nОткрыто ${opened} звёзд\nКоэффициент: x${finalCoeff}\n\n100% профит — ставь сейчас!`);
+            Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
+            document.getElementById('signal-btn').textContent = 'НОВЫЙ СИГНАЛ';
+            document.getElementById('signal-btn').disabled = false;
+            minesActive = false;
+          }, 600);
+          return;
         }
 
-        setTimeout(() => {
-          Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-          Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nОткрыто 10 звёзд\nКоэффициент: x2.50\n\nСтавь быстро — улёт близко!`);
-          document.getElementById('signal-btn').disabled = false;
-          document.getElementById('signal-btn').textContent = 'ПОЛУЧИТЬ СИГНАЛ';
-          document.getElementById('play-mines').disabled = false;
-        }, 2000);
-      }, 800);
-    }
+        const idx = safeIndices[opened];
+        if (svgDoc) {
+          const star = svgDoc.getElementById(`star-${idx + 1}`);
+          if (star) star.setAttribute('opacity', '1');
+        }
 
-    function openMinesTile(i, tile, isSignal = false) {
-      if (tile.classList.contains('opened')) return;
-      tile.classList.add('opened');
-      minesOpened++;
-      document.getElementById('opened').textContent = minesOpened;
-
-      // ВСЕГДА звезда + рамка (бомбы не видно)
-      tile.innerHTML = `
-        <img src="assets/mines/star.svg" class="tile-star">
-        <img src="assets/mines/opened_frame.png" class="tile-frame">
-      `;
-
-      if (!isSignal && minesField[i] === 'bomb') {
-        setTimeout(() => endMinesRound(false), 600);
-      } else {
+        minesOpened++;
+        document.getElementById('opened').textContent = minesOpened;
         document.getElementById('coeff').textContent = (1 + minesOpened * 0.15).toFixed(2);
-      }
+        opened++;
+      }, 170);
     }
-
-    function endMinesRound(win) {
-      minesActive = false;
-      document.getElementById('cashout').disabled = true;
-      document.getElementById('play-mines').textContent = 'ИГРАТЬ ЗАНОВО';
-      document.getElementById('signal-btn').style.display = 'none';
-      if (win) Telegram?.WebApp?.showAlert(`ВЫИГРЫШ x${document.getElementById('coeff').textContent}!`);
-    }
-
-    function cashoutMines() { if (minesActive) endMinesRound(true); }
   </script>
 </body>
 </html>
