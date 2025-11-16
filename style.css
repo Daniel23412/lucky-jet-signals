@@ -154,7 +154,7 @@ body, html {
 
 #luckyjet-title {
   position: absolute;
-  top: 70px;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   width: 380px;
@@ -197,16 +197,10 @@ body, html {
   transform: translateX(-50%);
 }
 #luckyjet .back {
-  position: absolute;
-  top: 90px;
+  top: 120px !important; /* ВЫШЕ */
   left: 16px;
   font-size: 30px;
   color: #fff;
-  background: none;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 100;
 }
 #get-signal {
   position: relative;
@@ -303,7 +297,6 @@ body, html {
   font-weight: bold;
   cursor: pointer;
   pointer-events: auto;
-  z-index: 101;
 }
 #mines-header .mines-title {
   margin: 0 auto;
@@ -319,9 +312,8 @@ body, html {
   grid-template-columns: repeat(5, 1fr);
   gap: 11px;
   max-width: 460px;
-  margin: 100px auto 0 !important;
+  margin: 140px auto 0 !important; /* ПОДНЯТА СЕТКА */
   padding: 0 15px;
-  z-index: 50;
 }
 
 .mines-controls {
@@ -331,9 +323,9 @@ body, html {
   width: 100%;
   max-width: 460px;
   padding: 0 15px;
-  z-index: 60;
+  z-index: 50;
   text-align: center;
-  top: calc(100px + 5 * (80px + 11px) + 20px); /* ДИНАМИЧЕСКИ ПОД СЕТКОЙ */
+  top: 58%; /* ПРЯМО ПОД СЕТКОЙ */
 }
 
 .mines-count {
@@ -357,7 +349,6 @@ body, html {
   cursor: pointer;
   transition: 0.3s;
   min-width: 55px;
-  z-index: 70;
 }
 .count-btns button.active {
   background: #0088ff !important;
@@ -406,7 +397,6 @@ body, html {
   text-align: center;
   border-top: 3px solid #00d4ff;
   box-shadow: 0 0 35px rgba(0,212,255,0.5);
-  z-index: 80;
 }
 
 /* === АДАПТАЦИЯ ПОД ТЕЛЕФОН === */
@@ -417,14 +407,14 @@ body, html {
   #get-signal { padding: 16px 40px; font-size: 18px; }
   #mines-timer button { padding: 14px 40px; font-size: 18px; }
   #mines-header .mines-title { font-size: 32px !important; }
-  #mines-field { margin-top: 90px !important; gap: 9px !important; }
-  .mines-controls { top: calc(90px + 5 * (70px + 9px) + 20px) !important; }
+  #mines-field { margin-top: 120px !important; }
+  .mines-controls { top: 60% !important; }
   .mines-count span { font-size: 24px; }
   .count-btns button { padding: 14px 18px; font-size: 18px; }
   .mines-info { font-size: 28px; }
   #multiplier { font-size: 60px; }
-  #luckyjet .back { font-size: 24px !important; top: 70px !important; }
-  #luckyjet-title { width: 320px !important; top: 60px !important; }
+  #luckyjet .back { font-size: 24px !important; top: 100px !important; }
+  #luckyjet-title { width: 320px !important; }
 }
 
 @media (max-width: 360px) {
@@ -432,8 +422,7 @@ body, html {
   .game-card { max-width: 110px; }
   .game-card .game-label { font-size: 18px; }
   #get-signal, #mines-timer button { padding: 12px 30px; font-size: 16px; }
-  #mines-field { margin-top: 80px !important; gap: 7px !important; }
-  .mines-controls { top: calc(80px + 5 * (60px + 7px) + 20px) !important; }
+  #mines-field { margin-top: 110px !important; gap: 8px !important; }
 }
 
 /* === АНИМАЦИИ === */
