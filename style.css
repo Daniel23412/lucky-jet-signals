@@ -69,7 +69,7 @@ body, html {
 
 /* Mines — Назад на одной линии с названием */
 #mines .back {
-  top: 48px;
+  top: 20px;
   left: 16px;
   font-size: 28px;
   color: #00d4ff;
@@ -279,3 +279,4 @@ body, html {
   0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); } 
   100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); } 
 }
+
