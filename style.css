@@ -215,7 +215,7 @@ body, html {
 
 #mines-header .back {
   position: relative;
-  top: -150px;
+  top: -110px;
   left: 30px;
   transform: none;
   font-size: 28px;
@@ -231,7 +231,7 @@ body, html {
 
 #mines-header .mines-title {
   position: relative;
-  top: -150px;
+  top: -110px;
   left: auto;
   transform: none;
   margin: 0 auto;
@@ -336,5 +336,6 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
 
 
