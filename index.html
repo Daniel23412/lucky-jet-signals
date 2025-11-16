@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lucky Jet Сигналы</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Telegram WebApp (необязательно, но лучше оставить) -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
+
   <!-- ПРЕВЬЮ -->
   <div id="preview" onclick="startGame()">
     <img src="assets/preview.png" alt="Lucky Jet Preview" />
@@ -21,7 +21,7 @@
     <div id="stars"></div>
     <div id="clouds"></div>
 
-    <!-- Логотип сверху (чуть опущен) -->
+    <!-- Логотип сверху (уже опущен) -->
     <div id="header-title">
       <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
     </div>
@@ -32,7 +32,7 @@
       <p>Загрузка...</p>
     </div>
 
-    <!-- Орбита и джетмен -->
+    <!-- Орбита -->
     <div id="center-orbit">
       <div id="multiplier">x2.18</div>
       <div id="jetman-container">
@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <!-- Кнопка сигнала -->
+    <!-- Кнопка -->
     <button id="get-signal" onclick="generateSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
   </div>
 
@@ -50,6 +50,7 @@
     Telegram?.WebApp?.expand();
 
     let currentCoeff = 2.18;
+    let canGetSignal = true;
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
@@ -62,9 +63,34 @@
     }
 
     function generateSignal() {
-      currentCoeff = (Math.random() * 13.5 + 1.5).toFixed(2);
-      updateCoeff(currentCoeff);
-      Telegram?.WebApp?.HapticFeedback?.impactOccurred('medium');
+      if (!canGetSignal) return;
+
+      canGetSignal = false;
+      const btn = document.getElementById('get-signal');
+      btn.textContent = "Проверка сигнала… 30";
+      btn.style.background = "#666";
+      btn.disabled = true;
+
+      let seconds = 30;
+      const timer = setInterval(() => {
+        seconds--;
+        btn.textContent = `Проверка сигнала… ${seconds}`;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          btn.textContent = "ПОЛУЧИТЬ СИГНАЛ";
+          btn.style.background = "#9c27b0";
+          btn.disabled = false;
+          canGetSignal = true;
+        }
+      }, 1000);
+
+      // Сам сигнал через 1.5 сек
+      setTimeout(() => {
+        currentCoeff = (Math.random() * 13.5 + 1.5).toFixed(2);
+        updateCoeff(currentCoeff);
+        Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
+        Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${currentCoeff}\nСтавь быстро — улёт близко!`);
+      }, 1500);
     }
 
     function updateCoeff(coeff) {
