@@ -277,7 +277,7 @@ body, html {
 /* НОВАЯ ПАНЕЛЬ УПРАВЛЕНИЯ — ВЫШЕ ПОЛЯ */
 .mines-controls {
   position: absolute;
-  top: 40px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -378,5 +378,6 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
 
 
