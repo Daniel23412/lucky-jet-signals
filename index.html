@@ -18,11 +18,7 @@
   <div id="game" class="hidden">
     <!-- ФОН -->
     <img id="game-bg" src="assets/background.jpg" />
-
-    <!-- ЗВЁЗДЫ -->
     <div id="stars"></div>
-
-    <!-- ОБЛАКА -->
     <div id="clouds"></div>
 
     <!-- НАДПИСЬ "LUCKYJET" СВЕРХУ -->
@@ -38,23 +34,18 @@
 
     <!-- ДЖЕТМЕН -->
     <img id="jetman" src="assets/jetman.png" />
-
-    <!-- ОГОНЬ -->
     <img id="fire" src="assets/jetpack_fire.svg" />
 
     <!-- КОЭФФИЦИЕНТ -->
     <div id="multiplier">x3.21</div>
 
-    <!-- СИГНАЛ -->
-    <div id="signal">СИГНАЛ: x3.21 → ВЫВОД!</div>
-
-    <!-- КНОПКА: СЛЕДУЮЩИЙ СИГНАЛ -->
-    <button id="next-signal" onclick="generateSignal()">СЛЕДУЮЩИЙ СИГНАЛ</button>
+    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" -->
+    <button id="get-signal" onclick="generateSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
   </div>
 
   <script>
     // МЕНЯЙ КОЭФФИЦИЕНТ ЗДЕСЬ!
-    let currentCoeff = 3.21; // ← ИЗМЕНИ ЗДЕСЬ (например: 4.56)
+    let currentCoeff = 3.21; // ← ИЗМЕНИ ЗДЕСЬ (первый сигнал)
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
@@ -68,16 +59,14 @@
     }
 
     function generateSignal() {
-      // МЕНЯЙ ЗДЕСЬ — НОВЫЙ КОЭФФИЦИЕНТ
-      currentCoeff = 4.56; // ← ИЗМЕНИ ЗДЕСЬ (или сделай рандом)
-
+      currentCoeff = 4.56; // ← ИЗМЕНИ ЗДЕСЬ (следующий сигнал)
       updateSignal(currentCoeff);
     }
 
     function updateSignal(coeff) {
       const formatted = coeff.toFixed(2);
       document.getElementById('multiplier').textContent = `x${formatted}`;
-      document.getElementById('signal').textContent = `СИГНАЛ: x${formatted} → ВЫВОД!`;
+      document.getElementById('get-signal').textContent = `СИГНАЛ: x${formatted} → ВЫВОД!`;
     }
   </script>
 </body>
