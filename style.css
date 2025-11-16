@@ -197,7 +197,7 @@ body, html {
   transform: translateX(-50%);
 }
 #luckyjet .back {
-  top: 120px !important; /* ВЫШЕ */
+  top: 90px !important; /* ВЫШЕ */
   left: 16px;
   font-size: 30px;
   color: #fff;
@@ -434,3 +434,4 @@ body, html {
   0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); }
   100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); }
 }
+
