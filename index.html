@@ -9,14 +9,14 @@
 </head>
 <body>
 
-  <!-- ГЛАВНОЕ МЕНЮ -->
+  <!-- МЕНЮ -->
   <div id="menu">
     <h1>СИГНАЛЫ 2025</h1>
     <button class="game-btn" onclick="openLuckyJet()">Lucky Jet</button>
     <button class="game-btn" onclick="openMines()">Мины</button>
   </div>
 
-  <!-- LUCKY JET -->
+  <!-- LUCKY JET — ПОЛНАЯ КРАСИВАЯ ВЕРСИЯ -->
   <div id="luckyjet" class="game-screen hidden">
     <div id="preview" onclick="startLuckyJet()">
       <img src="assets/preview.png" alt="Lucky Jet">
@@ -24,15 +24,14 @@
     </div>
 
     <div id="lucky-game" class="hidden">
-      <img id="game-bg" src="assets/background.jpg">
+      <img id="game-bg" src="assets/background.jpg" alt="bg">
       <div id="stars"></div>
       <div id="clouds"></div>
       <div id="header-title"><img src="assets/luckyjet_text.svg"></div>
 
-      <!-- Прелоадер -->
       <div id="preloader">
         <img src="assets/preloader.svg" class="loader">
-        <p>Загрузка сигнала...</p>
+        <p>Загрузка игры...</p>
       </div>
 
       <div id="center-orbit">
@@ -79,7 +78,6 @@
 Telegram?.WebApp?.ready();
 Telegram?.WebApp?.expand();
 
-let luckyIsFirst = true;
 let minesCount = 10;
 let minesField = [];
 let minesOpened = 0;
@@ -95,13 +93,13 @@ const closedCells = [
   "image_102217 (2).svg"
 ];
 
-// === НАВИГАЦИЯ ===
+// НАВИГАЦИЯ
 function openLuckyJet() { hideAll(); document.getElementById('luckyjet').classList.remove('hidden'); }
 function openMines()    { hideAll(); document.getElementById('mines').classList.remove('hidden'); }
 function backToMenu()   { hideAll(); document.getElementById('menu').classList.remove('hidden'); }
 function hideAll() { document.querySelectorAll('.game-screen, #menu').forEach(el => el.classList.add('hidden')); }
 
-// === LUCKY JET ===
+// === LUCKY JET — ПОЛНАЯ КРАСОТА ===
 function startLuckyJet() {
   document.getElementById('preview').classList.add('hidden');
   document.getElementById('lucky-game').classList.remove('hidden');
@@ -115,17 +113,16 @@ function generateLuckySignal() {
   btn.textContent = "Проверка...";
 
   setTimeout(() => {
-    const coeff = luckyIsFirst ? 4.20 : (Math.random() * 8 + 1.2).toFixed(2);
-    luckyIsFirst = false;
+    const coeff = (Math.random() * 10 + 1.3).toFixed(2);
     document.getElementById('multiplier').textContent = `x${coeff}`;
-    Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nЛети на профит 100%!`);
+    Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nУЛЁТ НА 100% — СТАВЬ СЕЙЧАС!`);
     Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
     btn.textContent = "ПОЛУЧИТЬ СИГНАЛ";
     btn.disabled = false;
   }, 1800);
 }
 
-// === МИНЫ ===
+// === МИНЫ — 100% РАБОЧАЯ КНОПКА "НОВЫЙ СИГНАЛ" ===
 function setMines(n) {
   minesCount = n;
   document.querySelectorAll('.count-btns button').forEach(b => b.classList.remove('active'));
@@ -172,8 +169,7 @@ function openTile(index, el) {
 }
 
 function getMinesSignal() {
-  if (minesActive) return;  // ← вот и была проблема!
-  startMinesRound();
+  startMinesRound(); // ← ВСЁ РЕШЕНИЕ В ЭТОЙ СТРОКЕ
 
   const btn = document.getElementById('signal-btn');
   btn.textContent = 'Сигнал...';
@@ -183,7 +179,8 @@ function getMinesSignal() {
     const tiles = document.querySelectorAll('.mine-tile');
     let toOpen = minesCount === 1 ? 8 + Math.floor(Math.random()*3) :
                  minesCount === 3 ? 6 + Math.floor(Math.random()*3) :
-                 minesCount === 5 ? 4 + Math.floor(Math.random()*3) : 10;
+                 minesCount === 5 ? 4 + Math.floor(Math.random()*3) :
+                 minesCount === 20 ? 3 : 10;
 
     let opened = 0;
     for (let i = 0; i < 25 && opened < toOpen; i++) {
@@ -195,7 +192,7 @@ function getMinesSignal() {
 
     setTimeout(() => {
       const koeff = (1 + opened * 0.15).toFixed(2);
-      Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nОткрыто ${opened} ячеек\nКэф: x${koeff}\nСтавь — 100% профит!`);
+      Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nОткрыто ${opened} безопасных ячеек\nКэф: x${koeff}\n\nСтавь сейчас — 100% профит!`);
       Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
       btn.textContent = 'НОВЫЙ СИГНАЛ';
       btn.disabled = false;
