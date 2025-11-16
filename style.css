@@ -51,7 +51,7 @@ body, html {
 .back { 
   position:absolute; 
   left:15px; 
-  top:15px; 
+  top:90px;       /* ← опущена ниже */
   background:none; 
   border:none; 
   color:#fff; 
@@ -79,6 +79,7 @@ body, html {
   animation:pulse 1.5s infinite; 
 }
 
+/* Плавно движущийся фон */
 #game-bg.moving-bg {
   position:absolute; 
   width:200%; 
@@ -92,7 +93,7 @@ body, html {
   100% { transform:translateX(-50%); }
 }
 
-/* ПЛАВНЫЕ ДВИЖУЩИЕСЯ ЗВЁЗДЫ */
+/* Плавно плывущие звёзды */
 #stars { 
   position:absolute; 
   width:200%; 
@@ -100,7 +101,7 @@ body, html {
   background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"><circle cx="30" cy="30" r="1.5" fill="white"/><circle cx="100" cy="20" r="1" fill="white"/><circle cx="60" cy="90" r="1.8" fill="white"/><circle cx="120" cy="110" r="1.2" fill="white"/></svg>') repeat; 
   background-size:120px; 
   opacity:0.8; 
-  animation: starsMove 80s linear infinite;
+  animation: starsMove 100s linear infinite;
 }
 @keyframes starsMove {
   0% { transform:translateX(0); }
@@ -114,7 +115,14 @@ body, html {
   animation:clouds 60s linear infinite; 
 }
 
-#header-title { position:absolute; top:30px; left:50%; transform:translateX(-50%); width:260px; z-index:100; }
+#header-title { 
+  position:absolute; 
+  top:80px;           /* ← опущена ниже */
+  left:50%; 
+  transform:translateX(-50%); 
+  width:260px; 
+  z-index:100; 
+}
 #preloader { 
   position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.97); 
   display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:999; 
@@ -150,7 +158,7 @@ body, html {
 }
 #get-signal:disabled { background:#666; }
 
-/* === MINES — СИНЯЯ ТЕМА + ЗАКРЫТАЯ СЕТКА БЕЗ ЗВЁЗД === */
+/* === MINES — СИНЯЯ ТЕМА === */
 .mines-title {
   text-align: center;
   font-size: 38px;
@@ -164,7 +172,7 @@ body, html {
   grid-template-columns:repeat(5,1fr); 
   gap:11px; 
   max-width:460px; 
-  margin:20px auto 0; 
+  margin:90px auto 0 !important;   /* ← опущена ниже */
   padding:0 15px; 
 }
 .mine-tile { 
@@ -180,13 +188,12 @@ body, html {
 }
 .mine-tile.opened img.closed { opacity:0; }
 
-/* Звёзды скрыты до сигнала */
 .mine-tile .star { 
   position:absolute; top:50%; left:50%; 
   transform:translate(-50%,-50%) scale(0); 
   width:48px; height:48px; 
   opacity:0;
-  transition: all 0.6s ease; 
+  transition:all 0.6s ease; 
 }
 .mine-tile.opened .star { 
   transform:translate(-50%,-50%) scale(1); 
@@ -231,19 +238,19 @@ body, html {
   color:#00eeff;
 }
 
-#signal-btn.blue-btn {
+/* Кнопка НОВЫЙ СИГНАЛ — меньше и красивая */
+#signal-btn.blue-btn.small {
   background:linear-gradient(45deg,#0066ff,#00aaff);
   color:#fff;
-  padding:22px 90px;
+  padding:18px 70px !important;
   border-radius:50px;
-  font-size:26px;
+  font-size:24px !important;
   font-weight:bold;
   border:none;
   cursor:pointer;
   box-shadow:0 12px 40px rgba(0,102,255,0.7);
-  transition:0.3s;
 }
-#signal-btn.blue-btn:disabled { opacity:0.6; }
+#signal-btn.blue-btn.small:disabled { opacity:0.6; }
 
 /* АНИМАЦИИ */
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
