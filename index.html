@@ -72,7 +72,7 @@
     /* === ОБЩЕЕ === */
     .game-screen { height:100vh; position:relative; background:#0a001f; overflow:hidden; }
 
-    /* === LUCKY JET — ПОЛНАЯ МОБИЛЬНАЯ АДАПТАЦИЯ === */
+    /* === LUCKY JET === */
     #luckyjet { position:relative; }
     #preview {
       position:fixed; top:0; left:0; width:100%; height:100%; background:#000;
@@ -190,7 +190,7 @@
       cursor: not-allowed;
     }
 
-    /* === MINES — ИДЕАЛЬНО АДАПТИРОВАНО === */
+    /* === MINES — БЕЗ СЧЁТЧИКА ОТКРЫТЫХ ЯЧЕЕК === */
     #mines {
       position:relative;
       padding:0 15px;
@@ -264,15 +264,16 @@
       transform: translate(-50%,-50%) scale(1);
       opacity: 1;
     }
+
     .mines-controls {
       width: 100%;
       max-width: 460px;
-      margin: 16px auto 0;
+      margin: 20px auto 0;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-grow: 1;
       justify-content: center;
     }
@@ -305,12 +306,7 @@
       box-shadow: 0 0 25px #0088ff;
       transform: scale(1.12);
     }
-    .mines-info {
-      font-size: 30px;
-      color: #00eeff;
-      font-weight: bold;
-      text-shadow: 0 0 15px #00aaff;
-    }
+
     .mines-panel.blue {
       position: fixed;
       bottom: 0; left: 0; right: 0;
@@ -344,7 +340,6 @@
     .timer-button.countdown .progress-ring { opacity: 1; }
     .progress-ring__progress { stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
 
-    /* === КНОПКИ НАЗАД === */
     .back {
       position: absolute;
       top: 16px;
@@ -359,7 +354,7 @@
       text-shadow: 0 0 15px #e040fb;
     }
 
-    /* === АДАПТАЦИЯ ПОД ТЕЛЕФОН === */
+    /* === АДАПТАЦИЯ === */
     @media (max-width: 480px) {
       #menu h1 { font-size: 28px; margin-bottom: 35px; }
       .game-card { max-width: 125px; }
@@ -373,10 +368,9 @@
       #mines-header .back { font-size: 18px; padding: 6px 10px; }
       #mines-header .mines-title { font-size: 32px; margin: 0 36px; }
       #mines-field { margin-top: 78px; gap: 9px; }
-      .mines-controls { margin: 14px auto 0; gap: 8px; }
+      .mines-controls { margin: 18px auto 0; gap: 10px; }
       .mines-count span { font-size: 24px; }
       .count-btns button { padding: 12px 18px; font-size: 17px; min-width: 48px; }
-      .mines-info { font-size: 28px; }
       .mines-panel.blue { padding: 18px; }
       #mines-timer button { padding: 13px 44px; font-size: 17px; }
       .back { top: 12px; left: 12px; font-size: 18px; }
@@ -393,10 +387,9 @@
       #get-signal { padding: 12px 38px; font-size: 16px; }
       #mines-header .mines-title { font-size: 28px; margin: 0 32px; }
       #mines-field { margin-top: 70px; gap: 8px; }
-      .mines-controls { margin: 12px auto 0; }
+      .mines-controls { margin: 16px auto 0; }
       .mines-count span { font-size: 22px; }
       .count-btns button { padding: 11px 16px; font-size: 16px; }
-      .mines-info { font-size: 26px; }
       #mines-timer button { padding: 12px 40px; font-size: 16px; }
     }
 
@@ -498,14 +491,11 @@
           <button onclick="setMines(7)" class="active">7</button>
         </div>
       </div>
-      <div class="mines-info">
-        <span data-ru="Открыто:" data-en="Opened:" data-tr="Açılan:">Открыто:</span> <span id="opened">0</span>/25
-      </div>
     </div>
 
     <div class="mines-panel blue">
       <div class="timer-button" id="mines-timer">
-        <button id="signal-btn" class="blue-btn small" onclick="getMinesSignal()" data-ru="НОВЫЙ СИГНАЛ" data-en="NEW SIGNAL" data-tr="YENİ SİNYAL">НОВЫЙ СИГНАЛ</button>
+        <button id="signal-btn" onclick="getMinesSignal()" data-ru="НОВЫЙ СИГНАЛ" data-en="NEW SIGNAL" data-tr="YENİ SİNYAL">НОВЫЙ СИГНАЛ</button>
         <svg class="progress-ring" width="170" height="170">
           <circle class="progress-ring__circle" stroke="#002233" stroke-width="5" fill="transparent" r="78" cx="85" cy="85"/>
           <circle class="progress-ring__progress" stroke="#00d4ff" stroke-width="7" fill="transparent" r="78" cx="85" cy="85"/>
@@ -629,7 +619,6 @@
     function createMinesGrid() {
       const field = document.getElementById('mines-field');
       field.innerHTML = '';
-      document.getElementById('opened').textContent = '0';
       for (let i = 0; i < 25; i++) {
         const div = document.createElement('div');
         div.className = 'mine-tile';
@@ -700,11 +689,11 @@
           const idx = safe[i];
           setTimeout(() => {
             tiles[idx].classList.add('opened');
-            document.getElementById('opened').textContent = ++opened;
+            opened++;
           }, i * 220);
         }
         setTimeout(() => {
-          Telegram?.WebApp?.showAlert(translations.minesSignalAlert[currentLang](opened));
+          Telegram?.WebApp?.showAlert(translations.minesSignalAlert[currentLang](openCount));
           Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
           startMinesCooldown();
         }, openCount * 220 + 1000);
