@@ -173,30 +173,39 @@ body, html {
   animation:fire 0.3s infinite alternate;
 }
 
-/* КНОПКА С ТАЙМЕРОМ */
+/* === ТАЙМЕР-КНОПКИ === */
 .timer-button {
+  position: relative;
+  display: inline-block;
+  z-index: 15;
+}
+#lucky-timer {
   position: absolute;
   bottom: 9%;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 15;
 }
-#get-signal {
+#mines-timer {
   position: relative;
-  background: #9c27b0;
-  color: #fff;
-  border: none;
-  padding: 18px 42px;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 0 35px #ba68c8;
+  margin: 20px auto 0;
+  width: fit-content;
+}
+#mines-timer button {
+  position: relative;
   z-index: 2;
+  background: linear-gradient(45deg, #0066ff, #00aaff);
+  color: #fff;
+  padding: 18px 70px;
+  border-radius: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 12px 40px rgba(0,102,255,0.7);
   transition: all 0.3s ease;
 }
-#get-signal:disabled {
-  background: #666;
+#mines-timer button:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -206,8 +215,6 @@ body, html {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
-  width: 120px;
-  height: 120px;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -219,7 +226,6 @@ body, html {
   transition: stroke-dashoffset 0.3s ease;
 }
 .progress-ring__progress {
-  stroke: #ba68c8;
   stroke-linecap: round;
   transition: stroke-dashoffset 1s linear;
 }
@@ -333,18 +339,6 @@ body, html {
   font-size:26px;
   color:#00eeff;
 }
-#signal-btn.blue-btn.small {
-  background:linear-gradient(45deg,#0066ff,#00aaff);
-  color:#fff;
-  padding:18px 70px !important;
-  border-radius:50px;
-  font-size:24px !important;
-  font-weight:bold;
-  border:none;
-  cursor:pointer;
-  box-shadow:0 12px 40px rgba(0,102,255,0.7);
-}
-#signal-btn.blue-btn.small:disabled { opacity:0.6; }
 
 /* АНИМАЦИИ */
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
