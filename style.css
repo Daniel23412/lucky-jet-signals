@@ -92,13 +92,21 @@ body, html {
   100% { transform:translateX(-50%); }
 }
 
+/* ПЛАВНЫЕ ДВИЖУЩИЕСЯ ЗВЁЗДЫ */
 #stars { 
-  position:absolute; width:100%; height:100%; 
-  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="20" cy="20" r="1" fill="white"/><circle cx="70" cy="10" r="1.5" fill="white"/><circle cx="40" cy="60" r="1" fill="white"/></svg>') repeat; 
-  background-size:90px; 
-  opacity:0.7; 
-  animation:twinkle 8s infinite; 
+  position:absolute; 
+  width:200%; 
+  height:100%; 
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"><circle cx="30" cy="30" r="1.5" fill="white"/><circle cx="100" cy="20" r="1" fill="white"/><circle cx="60" cy="90" r="1.8" fill="white"/><circle cx="120" cy="110" r="1.2" fill="white"/></svg>') repeat; 
+  background-size:120px; 
+  opacity:0.8; 
+  animation: starsMove 80s linear infinite;
 }
+@keyframes starsMove {
+  0% { transform:translateX(0); }
+  100% { transform:translateX(-50%); }
+}
+
 #clouds { 
   position:absolute; width:200%; height:40%; bottom:0; 
   background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30"><path d="M0,25 Q15,20 30,25 T60,25 Q75,20 90,25 L100,30 L0,30 Z" fill="%236a1b9a" opacity="0.25"/></svg>') repeat-x; 
@@ -142,7 +150,7 @@ body, html {
 }
 #get-signal:disabled { background:#666; }
 
-/* === MINES — СИНИЙ СТИЛЬ === */
+/* === MINES — СИНЯЯ ТЕМА + ЗАКРЫТАЯ СЕТКА БЕЗ ЗВЁЗД === */
 .mines-title {
   text-align: center;
   font-size: 38px;
@@ -171,14 +179,18 @@ body, html {
   transition:opacity 0.5s ease; 
 }
 .mine-tile.opened img.closed { opacity:0; }
+
+/* Звёзды скрыты до сигнала */
 .mine-tile .star { 
   position:absolute; top:50%; left:50%; 
   transform:translate(-50%,-50%) scale(0); 
   width:48px; height:48px; 
-  transition:transform 0.6s ease; 
+  opacity:0;
+  transition: all 0.6s ease; 
 }
 .mine-tile.opened .star { 
   transform:translate(-50%,-50%) scale(1); 
+  opacity:1;
 }
 
 .mines-panel.blue {
@@ -236,7 +248,6 @@ body, html {
 /* АНИМАЦИИ */
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
-@keyframes twinkle { 0%,100% { opacity:0.6; } 50% { opacity:0.9; } }
 @keyframes clouds { from { background-position:0 0; } to { background-position:-400px 0; } }
 @keyframes fire { 0% { opacity:0.8; } 100% { opacity:1; transform:scale(1.2) translateY(-6px); } }
 @keyframes orbit { 
