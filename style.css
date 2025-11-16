@@ -103,7 +103,7 @@ body, html {
   padding:18px 50px;
   border-radius:50px;
   font-weight:bold;
-  font-size:22px;
+  font-size:40px;
   box-shadow:0 0 25px #0f0;
   animation:pulse 1.5s infinite;
 }
@@ -378,6 +378,7 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
 
 
 
