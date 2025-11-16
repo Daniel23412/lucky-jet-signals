@@ -24,6 +24,34 @@
 <rect x="132" y="264" width="56" height="56" fill="url(#pattern22)"/>
 <rect x="198" y="264" width="56" height="56" fill="url(#pattern23)"/>
 <rect x="264" y="264" width="56" height="56" fill="url(#pattern24)"/>
+
+<!-- 25 ЗВЁЗД — точно по центру каждой ячейки, изначально скрыты -->
+  <image id="star-1"   x="14"   y="14"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-2"   x="80"   y="14"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-3"   x="146"  y="14"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-4"   x="212"  y="14"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-5"   x="278"  y="14"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-6"   x="14"   y="80"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-7"   x="80"   y="80"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-8"   x="146"  y="80"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-9"   x="212"  y="80"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-10"  x="278"  y="80"   width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-11"  x="14"   y="146"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-12"  x="80"   y="146"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-13"  x="146"  y="146"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-14"  x="212"  y="146"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-15"  x="278"  y="146"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-16"  x="14"   y="212"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-17"  x="80"   y="212"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-18"  x="146"  y="212"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-19"  x="212"  y="212"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-20"  x="278"  y="212"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-21"  x="14"   y="278"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-22"  x="80"   y="278"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-23"  x="146"  y="278"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-24"  x="212"  y="278"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  <image id="star-25"  x="278"  y="278"  width="48" height="48" href="assets/mines/star.svg" opacity="0"/>
+  
 <defs>
 <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_1569_2230" transform="scale(0.00135135)"/>
