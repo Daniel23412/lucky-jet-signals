@@ -125,7 +125,7 @@ function generateLuckySignal() {
       coeff = (Math.random() * 18.5 + 1.5).toFixed(2);
     }
     document.getElementById('multiplier').textContent = `x${coeff}`;
-    Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nУЛЁТ 100% — СТАВЬ СЕЙЧАС!`);
+    Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`);
     Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
     btn.textContent = "ПОЛУЧИТЬ СИГНАЛ";
     btn.disabled = false;
@@ -191,3 +191,4 @@ function getMinesSignal() {
 </script>
 </body>
 </html>
+
