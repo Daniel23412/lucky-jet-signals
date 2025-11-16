@@ -21,7 +21,7 @@
     <div id="stars"></div>
     <div id="clouds"></div>
 
-    <!-- Логотип сверху (уже опущен) -->
+    <!-- Логотип сверху -->
     <div id="header-title">
       <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
     </div>
@@ -34,7 +34,7 @@
 
     <!-- Орбита -->
     <div id="center-orbit">
-      <div id="multiplier">x2.18</div>
+      <div id="multiplier">x3.47</div>
       <div id="jetman-container">
         <img id="jetman" src="assets/jetman.png" />
         <img id="fire" src="assets/jetpack_fire.svg" />
@@ -49,7 +49,10 @@
     Telegram?.WebApp?.ready();
     Telegram?.WebApp?.expand();
 
-    let currentCoeff = 2.18;
+    // ←←← ЗДЕСЬ ТЫ ЗАДАЁШЬ СТАРТОВЫЙ КОЭФФИЦИЕНТ ←←←
+    let currentCoeff = 3.47;   // ← меняй на любое число (например 2.18, 5.55, 7.77 и т.д.)
+    // ←←←
+
     let canGetSignal = true;
 
     function startGame() {
@@ -84,9 +87,9 @@
         }
       }, 1000);
 
-      // Сам сигнал через 1.5 сек
+      // Рандомный сигнал от 1.10 до 8.30
       setTimeout(() => {
-        currentCoeff = (Math.random() * 13.5 + 1.5).toFixed(2);
+        currentCoeff = (Math.random() * (8.30 - 1.10) + 1.10).toFixed(2);
         updateCoeff(currentCoeff);
         Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
         Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${currentCoeff}\nСтавь быстро — забирай раньше чем указано!`);
@@ -99,4 +102,3 @@
   </script>
 </body>
 </html>
-
