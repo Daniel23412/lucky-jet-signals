@@ -91,37 +91,28 @@ body, html {
   z-index:5;
 }
 
-/* СИГНАЛ */
-#signal {
-  position:absolute; bottom:12%; left:50%; transform:translateX(-50%);
-  background:linear-gradient(45deg, #0f0, #0c0); color:#000;
-  padding:14px 28px; border-radius:16px; font-weight:bold;
-  font-size:19px; box-shadow:0 0 20px #0f0;
-  animation: blink 1s infinite; z-index:15;
-}
-
-/* КНОПКА: СЛЕДУЮЩИЙ СИГНАЛ */
-#next-signal {
+/* КНОПКА "ПОЛУЧИТЬ СИГНАЛ" */
+#get-signal {
   position: absolute;
-  bottom: 20%;
+  bottom: 12%;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(45deg, #ff0, #f90);
+  background: linear-gradient(45deg, #0f0, #0c0);
   color: #000;
   border: none;
-  padding: 12px 28px;
-  border-radius: 50px;
+  padding: 14px 28px;
+  border-radius: 16px;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 19px;
   cursor: pointer;
-  box-shadow: 0 0 20px #ff0;
-  z-index: 20;
-  animation: pulse 2s infinite;
+  box-shadow: 0 0 20px #0f0;
+  z-index: 15;
+  animation: blink 1s infinite;
   transition: all 0.3s;
 }
-#next-signal:hover {
+#get-signal:hover {
   transform: translateX(-50%) scale(1.05);
-  box-shadow: 0 0 30px #ff0;
+  box-shadow: 0 0 30px #0f0;
 }
 
 /* АНИМАЦИИ */
