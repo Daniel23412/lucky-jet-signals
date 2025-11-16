@@ -8,25 +8,23 @@
 </head>
 <body>
 
-  <!-- ПРЕВЬЮ (КЛИКАБЕЛЬНОЕ) -->
+  <!-- ПРЕВЬЮ -->
   <div id="preview" onclick="startGame()">
-    <img src="assets/preview.png" alt="Lucky Jet Preview" />
+    <img src="assets/preview.png" alt="Preview" />
     <div class="play-btn">ИГРАТЬ</div>
   </div>
 
-  <!-- ИГРА (СКРЫТА ПОКА) -->
+  <!-- ИГРА -->
   <div id="game" class="hidden">
-
-    <!-- ФОН (ТВОЙ JPG) -->
     <img id="game-bg" src="assets/background.jpg" />
 
     <!-- ЗВЁЗДЫ И ОБЛАКА -->
     <div id="stars"></div>
     <div id="clouds"></div>
 
-    <!-- НАДПИСЬ "LUCKY JET" — ПОЯВЛЯЕТСЯ ПОСЛЕ КЛИКА -->
+    <!-- НАДПИСЬ — ПОЯВЛЯЕТСЯ ПОСЛЕ КЛИКА -->
     <div id="header-title" class="hidden">
-      <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
+      <img src="assets/luckyjet_text.svg" alt="Lucky Jet" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%2250%22><text x=%2250%25%22 y=%2250%25%22 font-size=%2236%22 fill=%22%23ff0%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-weight=%22bold%22>Lucky Jet</text></svg>'" />
     </div>
 
     <!-- PRELOADER -->
@@ -53,13 +51,9 @@
       document.getElementById('preview').classList.add('hidden');
       document.getElementById('game').classList.remove('hidden');
 
-      // Показать надпись после клика
+      // Показать надпись после preloader
       setTimeout(() => {
         document.getElementById('header-title').classList.remove('hidden');
-      }, 3200); // после preloader
-
-      // Убрать preloader
-      setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
       }, 3000);
     }
