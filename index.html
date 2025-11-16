@@ -21,27 +21,25 @@
     <div id="stars"></div>
     <div id="clouds"></div>
 
-    <!-- Логотип сверху -->
     <div id="header-title">
       <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
     </div>
 
-    <!-- Прелоадер -->
     <div id="preloader">
       <img src="assets/preloader.svg" class="loader" />
       <p>Загрузка...</p>
     </div>
 
-    <!-- Орбита -->
     <div id="center-orbit">
-      <div id="multiplier">x3.47</div>
+      <!-- Коэффициент изначально пустой -->
+      <div id="multiplier"></div>
+
       <div id="jetman-container">
         <img id="jetman" src="assets/jetman.png" />
         <img id="fire" src="assets/jetpack_fire.svg" />
       </div>
     </div>
 
-    <!-- Кнопка -->
     <button id="get-signal" onclick="generateSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
   </div>
 
@@ -49,11 +47,12 @@
     Telegram?.WebApp?.ready();
     Telegram?.WebApp?.expand();
 
-    // ←←← ЗДЕСЬ ТЫ ЗАДАЁШЬ СТАРТОВЫЙ КОЭФФИЦИЕНТ ←←←
-    let currentCoeff = 3.47;   // ← меняй на любое число (например 2.18, 5.55, 7.77 и т.д.)
+    // ←←← ТЫ ЗАДАЁШЬ ПЕРВЫЙ КОЭФФИЦИЕНТ ЗДЕСЬ ←←←
+    const FIRST_COEFF = 4.20;        // ← меняй на любое число (2.18, 6.66, 7.77 и т.д.)
     // ←←←
 
     let canGetSignal = true;
+    let isFirstSignal = true;
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
@@ -61,7 +60,6 @@
       setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
         document.getElementById('header-title').classList.remove('hidden');
-        updateCoeff(currentCoeff);
       }, 3000);
     }
 
@@ -87,17 +85,19 @@
         }
       }, 1000);
 
-      // Рандомный сигнал от 1.10 до 8.30
       setTimeout(() => {
-        currentCoeff = (Math.random() * (8.30 - 1.10) + 1.10).toFixed(2);
-        updateCoeff(currentCoeff);
-        Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-        Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${currentCoeff}\nСтавь быстро — забирай раньше чем указано!`);
-      }, 1500);
-    }
+        let newCoeff;
+        if (isFirstSignal) {
+          newCoeff = FIRST_COEFF;           // первый — твой
+          isFirstSignal = false;
+        } else {
+          newCoeff = (Math.random() * (8.30 - 1.10) + 1.10).toFixed(2); // остальные рандом
+        }
 
-    function updateCoeff(coeff) {
-      document.getElementById('multiplier').textContent = `x${Number(coeff).toFixed(2)}`;
+        document.getElementById('multiplier').textContent = `x${Number(newCoeff).toFixed(2)}`;
+        Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
+        Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${Number(newCoeff).toFixed(2)}\nСтавь быстро — Джетмен взлетает!`);
+      }, 1500);
     }
   </script>
 </body>
