@@ -45,7 +45,7 @@
 
   <script>
     // МЕНЯЙ КОЭФФИЦИЕНТ ЗДЕСЬ!
-    let currentCoeff = 3.21; // ← Первый сигнал
+    let currentCoeff = 3.21; // ← Первый сигнал (после старта)
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
@@ -54,7 +54,6 @@
       setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
         document.getElementById('header-title').classList.remove('hidden');
-        // Показываем кнопку и начальный коэффициент
         updateDisplay(currentCoeff);
       }, 3000);
     }
@@ -69,6 +68,8 @@
       document.getElementById('multiplier').textContent = `x${formatted}`;
       document.getElementById('get-signal').textContent = `СИГНАЛ: x${formatted} → ВЫВОД!`;
       document.getElementById('get-signal').style.background = 'linear-gradient(45deg, #0f0, #0c0)';
+      document.getElementById('get-signal').style.boxShadow = '0 0 20px #0f0';
+      document.getElementById('get-signal').style.animation = 'blink 1s infinite';
     }
   </script>
 </body>
