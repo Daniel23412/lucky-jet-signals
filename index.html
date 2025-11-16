@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lucky Jet + Мины Сигналы 2025</title>
+  <title>Lucky Jet + Mines Сигналы</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -13,10 +13,10 @@
   <div id="menu">
     <h1>СИГНАЛЫ 2025</h1>
     <button class="game-btn" onclick="openLuckyJet()">Lucky Jet</button>
-    <button class="game-btn" onclick="openMines()">Мины</button>
+    <button class="game-btn" onclick="openMines()">Mines</button>
   </div>
 
-  <!-- LUCKY JET — ПОЛНАЯ КРАСИВАЯ ВЕРСИЯ -->
+  <!-- LUCKY JET -->
   <div id="luckyjet" class="game-screen hidden">
     <div id="preview" onclick="startLuckyJet()">
       <img src="assets/preview.png" alt="Lucky Jet">
@@ -24,14 +24,14 @@
     </div>
 
     <div id="lucky-game" class="hidden">
-      <img id="game-bg" src="assets/background.jpg" alt="bg">
+      <img id="game-bg" src="assets/background.jpg" class="moving-bg">
       <div id="stars"></div>
       <div id="clouds"></div>
       <div id="header-title"><img src="assets/luckyjet_text.svg"></div>
 
       <div id="preloader">
         <img src="assets/preloader.svg" class="loader">
-        <p>Загрузка игры...</p>
+        <p>Загрузка...</p>
       </div>
 
       <div id="center-orbit">
@@ -47,30 +47,29 @@
     </div>
   </div>
 
-  <!-- МИНЫ -->
+  <!-- MINES — НОВЫЙ СИНИЙ ДИЗАЙН -->
   <div id="mines" class="game-screen hidden">
-    <div class="mines-header">
-      <button class="back" onclick="backToMenu()">Назад</button>
-      <h2>Мины — Автосигнал</h2>
-    </div>
+    <button class="back" onclick="backToMenu()">Назад</button>
+    <h2 class="mines-title">Mines</h2>
+
     <div id="mines-field"></div>
 
-    <div class="mines-panel">
+    <div class="mines-panel blue">
       <div class="mines-count">
         <span>Мин:</span>
         <div class="count-btns">
           <button onclick="setMines(1)">1</button>
           <button onclick="setMines(3)">3</button>
           <button onclick="setMines(5)">5</button>
-          <button onclick="setMines(10)" class="active">10</button>
-          <button onclick="setMines(20)">20</button>
+          <button onclick="setMines(7)" class="active">7</button>
         </div>
       </div>
+
       <div class="mines-info">
-        <div>Кэф: <span id="coeff">1.00</span>x</div>
         <div>Открыто: <span id="opened">0</span>/25</div>
       </div>
-      <button id="signal-btn" onclick="getMinesSignal()">НОВЫЙ СИГНАЛ</button>
+
+      <button id="signal-btn" class="blue-btn" onclick="getMinesSignal()">НОВЫЙ СИГНАЛ</button>
     </div>
   </div>
 
@@ -78,9 +77,8 @@
 Telegram?.WebApp?.ready();
 Telegram?.WebApp?.expand();
 
-let minesCount = 10;
+let minesCount = 7;
 let minesField = [];
-let minesOpened = 0;
 let minesActive = false;
 
 const closedCells = [
@@ -99,7 +97,7 @@ function openMines()    { hideAll(); document.getElementById('mines').classList.
 function backToMenu()   { hideAll(); document.getElementById('menu').classList.remove('hidden'); }
 function hideAll() { document.querySelectorAll('.game-screen, #menu').forEach(el => el.classList.add('hidden')); }
 
-// === LUCKY JET — ПОЛНАЯ КРАСОТА ===
+// LUCKY JET
 function startLuckyJet() {
   document.getElementById('preview').classList.add('hidden');
   document.getElementById('lucky-game').classList.remove('hidden');
@@ -111,18 +109,17 @@ function generateLuckySignal() {
   if (btn.disabled) return;
   btn.disabled = true;
   btn.textContent = "Проверка...";
-
   setTimeout(() => {
     const coeff = (Math.random() * 10 + 1.3).toFixed(2);
     document.getElementById('multiplier').textContent = `x${coeff}`;
-    Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nУЛЁТ НА 100% — СТАВЬ СЕЙЧАС!`);
+    Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nЛети на профит!`);
     Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
     btn.textContent = "ПОЛУЧИТЬ СИГНАЛ";
     btn.disabled = false;
   }, 1800);
 }
 
-// === МИНЫ — 100% РАБОЧАЯ КНОПКА "НОВЫЙ СИГНАЛ" ===
+// MINES — ПОЛНОСТЬЮ ПО ТВОИМ ТРЕБОВАНИЯМ
 function setMines(n) {
   minesCount = n;
   document.querySelectorAll('.count-btns button').forEach(b => b.classList.remove('active'));
@@ -131,18 +128,18 @@ function setMines(n) {
 
 function startMinesRound() {
   minesActive = true;
-  minesOpened = 0;
-  document.getElementById('coeff').textContent = '1.00';
   document.getElementById('opened').textContent = '0';
 
   const field = document.getElementById('mines-field');
   field.innerHTML = '';
 
+  // Генерация мин
   minesField = Array(25).fill('star');
   const bombs = new Set();
   while (bombs.size < minesCount) bombs.add(Math.floor(Math.random() * 25));
   bombs.forEach(i => minesField[i] = 'bomb');
 
+  // Рисуем закрытые ячейки (клик отключён)
   for (let i = 0; i < 25; i++) {
     const div = document.createElement('div');
     div.className = 'mine-tile';
@@ -150,26 +147,12 @@ function startMinesRound() {
       <img class="closed" src="assets/mines/cells/${closedCells[i]}">
       <img class="star" src="assets/mines/star.svg">
     `;
-    div.onclick = () => openTile(i, div);
     field.appendChild(div);
   }
 }
 
-function openTile(index, el) {
-  if (!minesActive || el.classList.contains('opened')) return;
-  el.classList.add('opened');
-  minesOpened++;
-  document.getElementById('opened').textContent = minesOpened;
-  document.getElementById('coeff').textContent = (1 + minesOpened * 0.15).toFixed(2);
-
-  if (minesField[index] === 'bomb') {
-    minesActive = false;
-    setTimeout(() => Telegram?.WebApp?.showAlert('БОМБА! Проиграл!'), 700);
-  }
-}
-
 function getMinesSignal() {
-  startMinesRound(); // ← ВСЁ РЕШЕНИЕ В ЭТОЙ СТРОКЕ
+  startMinesRound();
 
   const btn = document.getElementById('signal-btn');
   btn.textContent = 'Сигнал...';
@@ -177,26 +160,40 @@ function getMinesSignal() {
 
   setTimeout(() => {
     const tiles = document.querySelectorAll('.mine-tile');
-    let toOpen = minesCount === 1 ? 8 + Math.floor(Math.random()*3) :
-                 minesCount === 3 ? 6 + Math.floor(Math.random()*3) :
-                 minesCount === 5 ? 4 + Math.floor(Math.random()*3) :
-                 minesCount === 20 ? 3 : 10;
 
+    // Сколько открывать по количеству мин
+    const openCount = minesCount === 1 ? 10 :
+                      minesCount === 3 ? 8 :
+                      minesCount === 5 ? 6 : 4;
+
+    // Перемешиваем индексы безопасных ячеек
+    const safeIndices = [];
+    for (let i = 0; i < 25; i++) {
+      if (minesField[i] === 'star') safeIndices.push(i);
+    }
+
+    // Перемешиваем рандомно
+    for (let i = safeIndices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [safeIndices[i], safeIndices[j]] = [safeIndices[j], safeIndices[i]];
+    }
+
+    // Открываем нужное количество рандомно
     let opened = 0;
-    for (let i = 0; i < 25 && opened < toOpen; i++) {
-      if (minesField[i] === 'star') {
-        setTimeout(() => openTile(i, tiles[i]), opened * 170);
-        opened++;
-      }
+    for (let i = 0; i < openCount && i < safeIndices.length; i++) {
+      const idx = safeIndices[i];
+      setTimeout(() => {
+        tiles[idx].classList.add('opened');
+        document.getElementById('opened').textContent = ++opened;
+      }, i * 220);
     }
 
     setTimeout(() => {
-      const koeff = (1 + opened * 0.15).toFixed(2);
-      Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nОткрыто ${opened} безопасных ячеек\nКэф: x${koeff}\n\nСтавь сейчас — 100% профит!`);
+      Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nОткрыто ${opened} безопасных ячеек\n\nСтавь сейчас — 100% профит!`);
       Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
       btn.textContent = 'НОВЫЙ СИГНАЛ';
       btn.disabled = false;
-    }, opened * 170 + 900);
+    }, openCount * 220 + 1000);
   }, 800);
 }
 </script>
