@@ -10,7 +10,7 @@ body, html {
 }
 .hidden { display:none !important; }
 
-/* === МЕНЮ — ОБНОВЛЕНО С КАРТОЧКАМИ === */
+/* === МЕНЮ — ГОРИЗОНТАЛЬНО, НАДПИСЬ НИЖЕ === */
 #menu {
   height:100vh;
   display:flex;
@@ -19,22 +19,24 @@ body, html {
   align-items:center;
   background:radial-gradient(circle at center,#1a0033,#000);
   text-align:center;
-  gap: 40px;
-  padding: 20px;
+  padding: 20px 15px;
 }
 
-#menu h1 {
-  font-size:42px;
-  margin: 0 0 20px 0;
-  text-shadow:0 0 30px #e040fb;
-  color: #fff;
+/* КОНТЕЙНЕР ДЛЯ КАРТОЧЕК — В РЯД */
+#menu .games-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 60px;
+  flex-wrap: wrap; /* на маленьких экранах — вниз */
 }
 
+/* КАРТОЧКИ — УМЕНЬШЕНЫ */
 .game-card {
-  width: 88%;
-  max-width: 380px;
+  width: 100%;
+  max-width: 320px; /* ← УМЕНЬШЕНО */
   cursor: pointer;
-  border-radius: 24px;
+  border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 14px 45px rgba(156,39,176,0.7);
   transition: all 0.3s ease;
@@ -45,7 +47,7 @@ body, html {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 24px;
+  border-radius: 20px;
 }
 
 .game-card .game-label {
@@ -53,18 +55,27 @@ body, html {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.8));
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
   color: #fff;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: bold;
-  padding: 30px 20px 20px;
+  padding: 28px 16px 16px;
   text-align: center;
   text-shadow: 0 0 15px #000;
 }
 
 .game-card:hover {
-  transform: scale(1.06);
+  transform: scale(1.08);
   box-shadow: 0 20px 60px rgba(156,39,176,0.9);
+}
+
+/* НАДПИСЬ — НИЖЕ КАРТОЧЕК */
+#menu h1 {
+  font-size: 38px;
+  margin: 0;
+  text-shadow: 0 0 30px #e040fb;
+  color: #fff;
+  order: 2; /* ниже карточек */
 }
 
 /* Скрываем старые кнопки */
