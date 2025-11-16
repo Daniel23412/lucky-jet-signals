@@ -275,7 +275,7 @@ body, html {
 /* === MINES — НОВЫЙ МАКЕТ === */
 #mines-header {
   position: absolute;
-  top: -10px;
+  top: -30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -289,7 +289,7 @@ body, html {
 #mines-header .back {
   position: relative;
   margin-right: auto;
-  font-size: -10px;
+  font-size: 20px;
   color: #00d4ff;
   text-shadow: 0 0 20px #00aaff;
   background: none;
@@ -434,6 +434,7 @@ body, html {
   0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); }
   100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); }
 }
+
 
 
 
