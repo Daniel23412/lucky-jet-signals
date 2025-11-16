@@ -1,3 +1,4 @@
+/* style.css — ПОЛНЫЙ CSS (включая дополнения) */
 * { margin:0; padding:0; box-sizing:border-box; }
 body, html {
   background:#000;
@@ -9,7 +10,6 @@ body, html {
   -webkit-tap-highlight-color:transparent;
 }
 .hidden { display:none !important; }
-
 /* === МЕНЮ === */
 #menu {
   height:100vh;
@@ -67,7 +67,6 @@ body, html {
   text-shadow: 0 0 30px #e040fb;
   color: #fff;
 }
-
 /* === ОБЩЕЕ === */
 .game-screen {
   height:100vh;
@@ -88,7 +87,6 @@ body, html {
   font-size: 30px;
   color: #fff;
 }
-
 /* === LUCKY JET === */
 #preview {
   position:fixed; top:0; left:0; width:100%; height:100%; background:#000;
@@ -107,7 +105,6 @@ body, html {
   box-shadow:0 0 25px #0f0;
   animation:pulse 1.5s infinite;
 }
-
 #game-bg.moving-bg {
   position:absolute;
   width:200%;
@@ -172,8 +169,7 @@ body, html {
   position:absolute; width:60px; bottom:-35px; left:50%; transform:translateX(-50%);
   animation:fire 0.3s infinite alternate;
 }
-
-/* === УВЕЛИЧЕННАЯ КНОПКА LUCKY JET === */
+/* === КНОПКА LUCKY JET === */
 #lucky-timer {
   position: absolute;
   bottom: 9%;
@@ -199,18 +195,7 @@ body, html {
   background: #666;
   cursor: not-allowed;
 }
-#lucky-timer .progress-ring {
-  width: 50px; height: 50px;
-}
-#lucky-timer .progress-ring__circle {
-  stroke-width: 5;
-}
-#lucky-timer .progress-ring__progress {
-  stroke: #ba68c8;
-  stroke-width: 8;
-}
-
-/* === ТАЙМЕР-КНОПКИ ОБЩИЕ === */
+/* === ТАЙМЕР-КНОПКИ === */
 .timer-button {
   position: relative;
   display: inline-block;
@@ -258,8 +243,7 @@ body, html {
   stroke-linecap: round;
   transition: stroke-dashoffset 1s linear;
 }
-
-/* === MINES — ПОДНЯТЫЕ КНОПКИ === */
+/* === MINES === */
 #mines-header {
   position: absolute;
   top: 8px;
@@ -302,7 +286,6 @@ body, html {
   text-shadow: 0 0 30px #00aaff, 0 0 60px #0088ff;
   pointer-events: none;
 }
-
 .mines-controls {
   position: absolute;
   top: 370px;
@@ -348,7 +331,6 @@ body, html {
   text-shadow: 0 0 20px #00aaff;
   margin-top: 8px;
 }
-
 #mines-field {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -380,7 +362,6 @@ body, html {
   transform: translate(-50%,-50%) scale(1);
   opacity: 1;
 }
-
 .mines-panel.blue {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -390,7 +371,6 @@ body, html {
   border-top: 3px solid #00d4ff;
   box-shadow: 0 0 35px rgba(0,212,255,0.5);
 }
-
 /* === АНИМАЦИИ === */
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
@@ -404,11 +384,3 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
-
-
-
-
-
-
-
-
