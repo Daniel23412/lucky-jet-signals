@@ -23,7 +23,7 @@
     <h1>Al GENZO HACK 2025</h1>
   </div>
 
-  <!-- LUCKY JET -->
+  <!-- LUCKY JET — УВЕЛИЧЕННАЯ КНОПКА -->
   <div id="luckyjet" class="game-screen hidden">
     <div id="preview" onclick="startLuckyJet()">
       <img src="assets/preview.png" alt="Lucky Jet">
@@ -48,11 +48,12 @@
         </div>
       </div>
      
+      <!-- УВЕЛИЧЕННЫЙ ТАЙМЕР + КНОПКА -->
       <div class="timer-button" id="lucky-timer">
         <button id="get-signal" onclick="generateLuckySignal()">ПОЛУЧИТЬ СИГНАЛ</button>
-        <svg class="progress-ring" width="120" height="120">
-          <circle class="progress-ring__circle" stroke="#333" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
-          <circle class="progress-ring__progress" stroke="#ba68c8" stroke-width="6" fill="transparent" r="52" cx="60" cy="60"/>
+        <svg class="progress-ring" width="160" height="160">
+          <circle class="progress-ring__circle" stroke="#333" stroke-width="5" fill="transparent" r="72" cx="80" cy="80"/>
+          <circle class="progress-ring__progress" stroke="#ba68c8" stroke-width="8" fill="transparent" r="72" cx="80" cy="80"/>
         </svg>
       </div>
     
@@ -60,14 +61,13 @@
     </div>
   </div>
 
-  <!-- MINES — ПОДНЯТЫ ЭЛЕМЕНТЫ -->
+  <!-- MINES — ПОДНЯТЫЕ КНОПКИ И ТЕКСТ -->
   <div id="mines" class="game-screen hidden">
     <div id="mines-header">
       <button class="back" onclick="backToMenu()">Назад</button>
       <h2 class="mines-title">Mines</h2>
     </div>
 
-    <!-- ПОДНЯТЫЙ ПАНЕЛЬ С КНОПКАМИ И ТЕКСТОМ -->
     <div class="mines-controls">
       <div class="mines-count">
         <span>Мин:</span>
@@ -139,7 +139,7 @@ function startLuckyCooldown() {
   btn.textContent = "15";
   timerBtn.classList.add('countdown');
 
-  const circumference = 2 * Math.PI * 52;
+  const circumference = 2 * Math.PI * 72;
   progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
   progressCircle.style.strokeDashoffset = circumference;
 
