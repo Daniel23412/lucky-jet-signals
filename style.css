@@ -184,7 +184,7 @@ body, html {
   grid-template-columns:repeat(5,1fr); 
   gap:11px; 
   max-width:460px; 
-  margin:120px auto 0 !important;   /* ← ещё ниже */
+  margin:190px auto 0 !important;   /* ← ещё ниже */
   padding:0 15px; 
 }
 .mine-tile { 
@@ -272,5 +272,6 @@ body, html {
   0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); } 
   100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); } 
 }
+
 
 
