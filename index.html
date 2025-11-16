@@ -7,24 +7,25 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <!-- PRELOADER -->
   <div id="preloader">
-    <img src="assets/preloader.svg" class="loader" alt="Loading..." />
-    <p>Загрузка игры...</p>
+    <img src="assets/preloader.svg" class="loader" />
+    <p>Загрузка...</p>
   </div>
 
   <!-- ИГРА -->
   <div id="game" class="hidden">
     <div id="bg"></div>
 
-    <!-- ДЖЕТМЕН (PNG) -->
-    <img id="jetman" src="assets/jetman.png" alt="Jetman" />
+    <!-- ДЖЕТМЕН (ТВОЙ PNG) -->
+    <img id="jetman" src="assets/jetman.png" />
 
-    <!-- ОГОНЬ ИЗ РАНЦА (SVG) -->
-    <img id="fire" src="assets/jetpack_fire.svg" alt="Fire" />
+    <!-- ОГОНЬ (SVG) -->
+    <img id="fire" src="assets/jetpack_fire.svg" />
 
     <!-- ЛОГОТИП (PNG) -->
-    <img id="text" src="assets/luckyjet_text.png" alt="Lucky Jet" />
+    <img id="text" src="assets/luckyjet_text.png" />
 
     <!-- МНОЖИТЕЛЬ -->
     <div id="multiplier">x1.00</div>
@@ -34,7 +35,7 @@
   </div>
 
   <script>
-    // Скрыть preloader через 3 секунды
+    // Запуск игры после загрузки
     setTimeout(() => {
       document.getElementById('preloader').classList.add('hidden');
       document.getElementById('game').classList.remove('hidden');
@@ -51,7 +52,7 @@
           x += 0.04 + Math.random() * 0.1;
           mult.textContent = 'x' + x.toFixed(2);
         } else {
-          const targets = [2.1, 2.7, 3.3, 3.7, 4.1, 4.5];
+          const targets = [2.1, 2.7, 3.3, 3.7, 4.1, 4.5, 5.0];
           const target = targets[Math.floor(Math.random() * targets.length)];
           signal.innerHTML = `СИГНАЛ: x${target} → ВЫВОД!`;
           x = 1.00;
