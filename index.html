@@ -8,18 +8,24 @@
 </head>
 <body>
 
-  <!-- ПРЕВЬЮ (КЛИКАБЕЛЬНОЕ, PNG) -->
+  <!-- ПРЕВЬЮ (КЛИКАБЕЛЬНОЕ) -->
   <div id="preview" onclick="startGame()">
     <img src="assets/preview.png" alt="Lucky Jet Preview" />
-    <div class="play-btn">▶ ИГРАТЬ</div>
+    <div class="play-btn">ИГРАТЬ</div>
   </div>
 
   <!-- ИГРА (СКРЫТА ПОКА) -->
   <div id="game" class="hidden">
-    <div id="bg"></div>
 
-    <!-- НАДПИСЬ "LUCKY JET" СВЕРХУ (SVG) -->
-    <div id="header-title">
+    <!-- ФОН (ТВОЙ JPG) -->
+    <img id="game-bg" src="assets/background.jpg" />
+
+    <!-- ЗВЁЗДЫ И ОБЛАКА -->
+    <div id="stars"></div>
+    <div id="clouds"></div>
+
+    <!-- НАДПИСЬ "LUCKY JET" — ПОЯВЛЯЕТСЯ ПОСЛЕ КЛИКА -->
+    <div id="header-title" class="hidden">
       <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
     </div>
 
@@ -35,7 +41,7 @@
     <!-- ОГОНЬ -->
     <img id="fire" src="assets/jetpack_fire.svg" />
 
-    <!-- ФИКСИРОВАННЫЙ КОЭФФИЦИЕНТ -->
+    <!-- КОЭФФИЦИЕНТ -->
     <div id="multiplier">x3.21</div>
 
     <!-- СИГНАЛ -->
@@ -47,6 +53,12 @@
       document.getElementById('preview').classList.add('hidden');
       document.getElementById('game').classList.remove('hidden');
 
+      // Показать надпись после клика
+      setTimeout(() => {
+        document.getElementById('header-title').classList.remove('hidden');
+      }, 3200); // после preloader
+
+      // Убрать preloader
       setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
       }, 3000);
