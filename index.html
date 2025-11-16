@@ -8,57 +8,51 @@
 </head>
 <body>
 
-  <!-- PRELOADER -->
-  <div id="preloader">
-    <img src="assets/preloader.svg" class="loader" />
-    <p>Загрузка...</p>
+  <!-- ПРЕВЬЮ (КЛИКАБЕЛЬНОЕ, PNG) -->
+  <div id="preview" onclick="startGame()">
+    <img src="assets/preview.png" alt="Lucky Jet Preview" />
+    <div class="play-btn">▶ ИГРАТЬ</div>
   </div>
 
-  <!-- ИГРА -->
+  <!-- ИГРА (СКРЫТА ПОКА) -->
   <div id="game" class="hidden">
     <div id="bg"></div>
 
-    <!-- ДЖЕТМЕН (ТВОЙ PNG) -->
+    <!-- ФОН (ТВОЙ JPG) -->
+    <img id="game-bg" src="assets/background.jpg" />
+
+    <!-- НАДПИСЬ "LUCKY JET" СВЕРХУ (SVG) -->
+    <div id="header-title">
+      <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
+    </div>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+      <img src="assets/preloader.svg" class="loader" />
+      <p>Загрузка...</p>
+    </div>
+
+    <!-- ДЖЕТМЕН -->
     <img id="jetman" src="assets/jetman.png" />
 
-    <!-- ОГОНЬ (SVG) -->
+    <!-- ОГОНЬ -->
     <img id="fire" src="assets/jetpack_fire.svg" />
 
-    <!-- ЛОГОТИП (PNG) -->
-    <img id="text" src="assets/luckyjet_text.png" />
-
-    <!-- МНОЖИТЕЛЬ -->
-    <div id="multiplier">x1.00</div>
+    <!-- ФИКСИРОВАННЫЙ КОЭФФИЦИЕНТ -->
+    <div id="multiplier">x3.21</div>
 
     <!-- СИГНАЛ -->
-    <div id="signal">СИГНАЛ: x3.7 → ВЫВОД!</div>
+    <div id="signal">СИГНАЛ: x3.21 → ВЫВОД!</div>
   </div>
 
   <script>
-    // Запуск игры после загрузки
-    setTimeout(() => {
-      document.getElementById('preloader').classList.add('hidden');
-      document.getElementById('game').classList.remove('hidden');
-      startGame();
-    }, 3000);
-
     function startGame() {
-      let x = 1.00;
-      const mult = document.getElementById('multiplier');
-      const signal = document.getElementById('signal');
+      document.getElementById('preview').classList.add('hidden');
+      document.getElementById('game').classList.remove('hidden');
 
-      setInterval(() => {
-        if (x < 5.5) {
-          x += 0.04 + Math.random() * 0.1;
-          mult.textContent = 'x' + x.toFixed(2);
-        } else {
-          const targets = [2.1, 2.7, 3.3, 3.7, 4.1, 4.5, 5.0];
-          const target = targets[Math.floor(Math.random() * targets.length)];
-          signal.innerHTML = `СИГНАЛ: x${target} → ВЫВОД!`;
-          x = 1.00;
-          setTimeout(() => { x = 1.01; }, 2800);
-        }
-      }, 90);
+      setTimeout(() => {
+        document.getElementById('preloader').classList.add('hidden');
+      }, 3000);
     }
   </script>
 </body>
