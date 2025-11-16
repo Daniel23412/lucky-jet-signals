@@ -55,41 +55,50 @@ body, html { background:#000; overflow:hidden; font-family:Arial; height:100vh; 
 /* ЦЕНТР: ОРБИТА */
 #center-orbit {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 300px; height: 300px; z-index: 10;
+  width: 320px; height: 320px; z-index: 10;
 }
 
-/* КОЭФФИЦИЕНТ — ФИОЛЕТОВЫЙ, БЕЗ СВЕЧЕНИЯ */
+/* КОЭФФИЦИЕНТ — ФИОЛЕТОВЫЙ, С ЛЁГКИМ СВЕЧЕНИЕМ */
 #multiplier {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  font-size: 90px; font-weight: bold; color: #9c27b0;
+  font-size: 90px; font-weight: bold; color: #e040fb;
+  text-shadow: 0 0 15px #e040fb, 0 0 30px #ba68c8;
   z-index: 5;
 }
 
-/* ДЖЕТМЕН — ЛЕТАЕТ ПО КРУГУ */
-#jetman {
-  position: absolute; width: 120px; left: 50%; top: -60px; transform: translateX(-50%);
+/* КОНТЕЙНЕР ДЖЕТМЕНА (ЧТОБЫ ОГОНЬ ЛЕТЕЛ ВМЕСТЕ) */
+#jetman-container {
+  position: absolute; width: 140px; height: 140px;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
   animation: orbit 8s linear infinite; z-index: 10;
-  filter: drop-shadow(0 0 15px #f90);
-}
-#fire {
-  position: absolute; width: 80px; left: 50%; top: 40px; transform: translateX(-50%);
-  animation: orbit 8s linear infinite, fire 0.3s infinite alternate;
-  z-index: 9; filter: drop-shadow(0 0 20px #f90);
 }
 
-/* КНОПКА "ПОЛУЧИТЬ СИГНАЛ" — ФИОЛЕТОВАЯ */
+/* ДЖЕТМЕН — ЛЕТАЕТ ПО КРУГУ, НЕ ЗАДЕВАЕТ */
+#jetman {
+  position: absolute; width: 100px; top: -80px; left: 50%; transform: translateX(-50%);
+  filter: drop-shadow(0 0 15px #f90);
+}
+
+/* ОГОНЬ — ПРИВЯЗАН К ДЖЕТМЕНУ, ЛЕТИТ ВМЕСТЕ */
+#fire {
+  position: absolute; width: 70px; bottom: -30px; left: 50%; transform: translateX(-50%);
+  animation: fire 0.3s infinite alternate;
+  filter: drop-shadow(0 0 20px #f90);
+}
+
+/* КНОПКА "ПОЛУЧИТЬ СИГНАЛ" */
 #get-signal {
   position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(45deg, #9c27b0, #7b1fa2);
-  color: #fff; border: none; padding: 18px 40px; border-radius: 50px;
-  font-weight: bold; font-size: 22px; cursor: pointer;
-  box-shadow: 0 0 25px rgba(156, 39, 176, 0.8); z-index: 15;
-  animation: pulse 1.8s infinite; transition: all 0.3s;
+  background: #9c27b0;
+  color: #fff; border: none; padding: 16px 36px; border-radius: 50px;
+  font-weight: bold; font-size: 20px; cursor: pointer;
+  box-shadow: 0 0 20px #ba68c8, 0 0 30px #9c27b0;
+  z-index: 15; transition: all 0.3s;
 }
 #get-signal:hover {
-  transform: translateX(-50%) scale(1.08);
-  box-shadow: 0 0 35px rgba(156, 39, 176, 1);
-  background: linear-gradient(45deg, #ab47bc, #8e24aa);
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 0 30px #e040fb, 0 0 40px #ba68c8;
+  background: #ab47bc;
 }
 
 /* АНИМАЦИИ */
@@ -97,11 +106,11 @@ body, html { background:#000; overflow:hidden; font-family:Arial; height:100vh; 
 @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.1); } }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 @keyframes twinkle { 0%,100% { opacity:0.6; } 50% { opacity:1; } }
-@keyframes clouds { from { background-position:0 0; } to { background-position Hofmann:-300px 0; } }
+@keyframes clouds { from { background-position:0 0; } to { background-position:-300px 0; } }
 @keyframes fire { 0% { opacity:0.8; transform:scale(1); } 100% { opacity:1; transform:scale(1.1) translateY(-5px); } }
 
-/* ОРБИТА */
+/* ОРБИТА — ДЖЕТМЕН НЕ ЗАДЕВАЕТ КОЭФФ */
 @keyframes orbit {
-  0%   { transform: translateX(-50%) rotate(0deg) translateX(150px) rotate(0deg); }
-  100% { transform: translateX(-50%) rotate(360deg) translateX(150px) rotate(-360deg); }
+  0%   { transform: translate(-50%, -50%) rotate(0deg) translateX(160px) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) translateX(160px) rotate(-360deg); }
 }
