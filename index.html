@@ -39,13 +39,13 @@
     <!-- КОЭФФИЦИЕНТ -->
     <div id="multiplier">x3.21</div>
 
-    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" -->
+    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" — ВИДНА СРАЗУ -->
     <button id="get-signal" onclick="generateSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
   </div>
 
   <script>
     // МЕНЯЙ КОЭФФИЦИЕНТ ЗДЕСЬ!
-    let currentCoeff = 3.21; // ← ИЗМЕНИ ЗДЕСЬ (первый сигнал)
+    let currentCoeff = 3.21; // ← Первый сигнал
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
@@ -54,19 +54,21 @@
       setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
         document.getElementById('header-title').classList.remove('hidden');
-        updateSignal(currentCoeff);
+        // Показываем кнопку и начальный коэффициент
+        updateDisplay(currentCoeff);
       }, 3000);
     }
 
     function generateSignal() {
-      currentCoeff = 4.56; // ← ИЗМЕНИ ЗДЕСЬ (следующий сигнал)
-      updateSignal(currentCoeff);
+      currentCoeff = 4.56; // ← МЕНЯЙ ЗДЕСЬ (следующий сигнал)
+      updateDisplay(currentCoeff);
     }
 
-    function updateSignal(coeff) {
+    function updateDisplay(coeff) {
       const formatted = coeff.toFixed(2);
       document.getElementById('multiplier').textContent = `x${formatted}`;
       document.getElementById('get-signal').textContent = `СИГНАЛ: x${formatted} → ВЫВОД!`;
+      document.getElementById('get-signal').style.background = 'linear-gradient(45deg, #0f0, #0c0)';
     }
   </script>
 </body>
