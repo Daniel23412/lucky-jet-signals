@@ -18,7 +18,6 @@
     }
     .hidden { display:none !important; }
 
-    /* === АДАПТИВНЫЕ ЕДИНИЦЫ === */
     :root {
       --unit: calc(100vw / 100);
     }
@@ -105,7 +104,6 @@
       color: #fff;
     }
 
-    /* === ОБЩЕЕ === */
     .game-screen {
       height:100vh;
       position:relative;
@@ -121,8 +119,6 @@
       z-index: 100;
       font-size: clamp(24px, 6vw, 30px);
       color: #fff;
-      left: 4vw;
-      top: 4vh;
     }
 
     /* === LUCKY JET === */
@@ -180,7 +176,7 @@
 
     #header-title {
       position:absolute;
-      top: 8vh;
+      top: 25%;
       left:50%;
       transform:translateX(-50%);
       width: clamp(200px, 60vw, 280px);
@@ -221,7 +217,6 @@
     }
     @keyframes fire { 0% { opacity:0.8; } 100% { opacity:1; transform:scale(1.2) translateY(-6px); } }
 
-    /* === КНОПКА СИГНАЛА === */
     #lucky-timer {
       position: absolute;
       bottom: 8vh;
@@ -255,44 +250,77 @@
       transition: opacity 0.3s ease;
     }
     .timer-button.countdown .progress-ring { opacity: 1; }
-    .progress-ring__circle { stroke:#333; stroke-width:5; fill:transparent; r:72; cx:80; cy:80; }
-    .progress-ring__progress { stroke:#ba68c8; stroke-width:8; fill:transparent; r:72; cx:80; cy:80; stroke-linecap:round; }
+    .progress-ring__circle { stroke:#333; stroke-width:5; fill:transparent; }
+    .progress-ring__progress { stroke:#ba68c8; stroke-width:8; fill:transparent; stroke-linecap:round; }
 
     /* === MINES === */
     #mines-header {
       position: absolute;
-      top: 20vh;
+      top: 2vh;
       left: 50%;
       transform: translateX(-50%);
-      width: 100%;
-      max-width: 90vw;
+      width: 90vw;
+      max-width: 460px;
       z-index: 100;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
+      padding: 0 2vw;
     }
     #mines-header .back {
-      position: absolute;
-      left: 0;
-      top: 0;
+      position: static;
       font-size: clamp(24px, 6vw, 30px);
       color: #00d4ff;
+      text-shadow: 0 0 20px #00aaff;
     }
     #mines-header .mines-title {
       font-size: clamp(32px, 9vw, 42px);
       color: #00d4ff;
       text-shadow: 0 0 30px #00aaff;
+      font-weight: bold;
     }
 
+    /* СЕТКА — В ЦЕНТРЕ */
+    #mines-field {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: clamp(8px, 2vw, 11px);
+      max-width: 90vw;
+      margin: 14vh auto 3vh; /* Отступ сверху и снизу */
+      padding: 0 2vw;
+    }
+    .mine-tile {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,170,255,0.3);
+    }
+    .mine-tile img.closed {
+      width: 100%; height: 100%;
+      transition: opacity 0.5s ease;
+    }
+    .mine-tile.opened img.closed { opacity: 0; }
+    .mine-tile .star {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0);
+      width: 48px; height: 48px;
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+    .mine-tile.opened .star {
+      transform: translate(-50%,-50%) scale(1);
+      opacity: 1;
+    }
+
+    /* КНОПКИ ПОД СЕТКОЙ */
     .mines-controls {
-      position: absolute;
-      top: 4vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 70vw;
-      max-width: 300px;
+      position: static;
+      margin: 0 auto 4vh;
+      width: 90vw;
+      max-width: 460px;
       text-align: center;
-      z-index: 50;
+      padding: 0 2vw;
     }
     .mines-count span {
       font-size: clamp(20px, 5vw, 24px);
@@ -320,38 +348,6 @@
       font-size: clamp(26px, 7vw, 32px);
       color: #00eeff;
       margin-top: 8px;
-    }
-
-    #mines-field {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: clamp(8px, 2vw, 11px);
-      max-width: 90vw;
-      margin: 22vh auto 0;
-      padding: 0 2vw;
-    }
-    .mine-tile {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,170,255,0.3);
-    }
-    .mine-tile img.closed {
-      width: 100%; height: 100%;
-      transition: opacity 0.5s ease;
-    }
-    .mine-tile.opened img.closed { opacity: 0; }
-    .mine-tile .star {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-50%) scale(0);
-      width: 48px; height: 48px;
-      opacity: 0;
-      transition: all 0.6s ease;
-    }
-    .mine-tile.opened .star {
-      transform: translate(-50%,-50%) scale(1);
-      opacity: 1;
     }
 
     .mines-panel.blue {
@@ -404,33 +400,46 @@
   <!-- LUCKY JET -->
   <div id="luckyjet" class="game-screen hidden">
     <div id="preview" onclick="startLuckyJet()">
-      <img src="assets/preview.png" alt="Lucky Jet">
-      <div class="play-btn" data-key="play">İGRA</div>
+      <img src="https://i.ibb.co/23c4Pc2x/luckyjet-preview.jpg" alt="Lucky Jet">
+      <div class="play-btn" data-key="play">OYNA</div>
     </div>
     <div id="lucky-game" class="hidden">
-      <img id="game-bg" src="assets/background.jpg" class="moving-bg">
+      <img id="game-bg" src="https://i.ibb.co/8YQbV3w/background.jpg" class="moving-bg" onerror="this.style.display='none'">
       <div id="stars"></div>
       <div id="clouds"></div>
-      <div id="header-title"><img src="assets/luckyjet_text.svg"></div>
-      <div id="preloader">
-        <img src="assets/preloader.svg" class="loader">
-        <p data-key="loading">Yükleniyor...</p>
+      
+      <div id="header-title">
+        <svg viewBox="0 0 300 80" width="clamp(200px, 60vw, 280px)" height="80">
+          <text x="150" y="50" font-family="Arial Black, sans-serif" font-size="32" font-weight="bold" 
+                fill="#e040fb" text-anchor="middle" stroke="#fff" stroke-width="1.5" stroke-opacity="0.8">
+            LUCKY JET
+          </text>
+        </svg>
       </div>
+      
+      <div id="preloader">
+        <div class="loader" style="border: 4px solid #333; border-top: 4px solid #e040fb; border-radius: 50%;"></div>
+        <p data-key="loading" style="margin-top: 20px; font-size: clamp(16px, 4vw, 20px);">Yükleniyor...</p>
+      </div>
+      
       <div id="center-orbit">
         <div id="multiplier">x1.00</div>
         <div id="jetman-container">
-          <img id="jetman" src="assets/jetman.png">
-          <img id="fire" src="assets/jetpack_fire.svg">
+          <div style="position:absolute; width:100px; height:100px; top:50%; left:50%; transform:translate(-50%,-50%);">
+            <div style="position:absolute; width:60px; height:60px; bottom:-30px; left:50%; transform:translateX(-50%); background:linear-gradient(45deg, #ff6b00, #ff9800); border-radius:50% 50% 50% 50%/60% 60% 40% 40%; animation:fire 0.3s infinite alternate;"></div>
+            <img id="jetman" src="https://i.ibb.co/8YQbV3w/jetman.png" style="width:80%; filter:drop-shadow(0 0 20px #ff9800);" onerror="this.src='https://via.placeholder.com/80x80/ff9800/000?text=ROCKET'">
+          </div>
         </div>
       </div>
+      
       <div class="timer-button" id="lucky-timer">
         <button id="get-signal" onclick="generateLuckySignal()" data-key="get_signal">SİNYAL AL</button>
-        <svg class="progress-ring" width="160" height="160">
-          <circle class="progress-ring__circle" stroke="#333" stroke-width="5" fill="transparent" r="72" cx="80" cy="80"/>
-          <circle class="progress-ring__progress" stroke="#ba68c8" stroke-width="8" fill="transparent" r="72" cx="80" cy="80"/>
+        <svg class="progress-ring" viewBox="0 0 160 160">
+          <circle class="progress-ring__circle" cx="80" cy="80" r="72"/>
+          <circle class="progress-ring__progress" cx="80" cy="80" r="72"/>
         </svg>
       </div>
-      <button class="back" onclick="backToMenu()" data-key="back">Geri</button>
+      <button class="back" onclick="backToMenu()" style="top:4vh; color:#fff;" data-key="back">Geri</button>
     </div>
   </div>
 
@@ -440,6 +449,11 @@
       <button class="back" onclick="backToMenu()" data-key="back">Geri</button>
       <h2 class="mines-title" data-key="mines">Mines</h2>
     </div>
+
+    <!-- СЕТКА -->
+    <div id="mines-field"></div>
+
+    <!-- КНОПКИ ПОД СЕТКОЙ -->
     <div class="mines-controls">
       <div class="mines-count">
         <span data-key="mines_count">Mayın:</span>
@@ -454,13 +468,14 @@
         <span data-key="opened_text">Açıldı:</span> <span id="opened">0</span>/25
       </div>
     </div>
-    <div id="mines-field"></div>
+
+    <!-- КНОПКА СИГНАЛА -->
     <div class="mines-panel blue">
       <div class="timer-button" id="mines-timer">
         <button id="signal-btn" onclick="getMinesSignal()" data-key="new_signal">YENİ SİNYAL</button>
-        <svg class="progress-ring" width="180" height="180">
-          <circle class="progress-ring__circle" stroke="#002233" stroke-width="5" fill="transparent" r="80" cx="90" cy="90"/>
-          <circle class="progress-ring__progress" stroke="#00d4ff" stroke-width="7" fill="transparent" r="80" cx="90" cy="90"/>
+        <svg class="progress-ring" viewBox="0 0 180 180">
+          <circle class="progress-ring__circle" cx="90" cy="90" r="80"/>
+          <circle class="progress-ring__progress" cx="90" cy="90" r="80"/>
         </svg>
       </div>
     </div>
@@ -470,54 +485,13 @@
 Telegram?.WebApp?.ready();
 Telegram?.WebApp?.expand();
 
-// === ПЕРЕВОДЫ ===
 const translations = {
-  ru: {
-    title: "Al GENZO HACK 2025",
-    luckyjet: "Lucky Jet",
-    mines: "Mines",
-    play: "ИГРАТЬ",
-    loading: "Загрузка...",
-    get_signal: "ПОЛУЧИТЬ СИГНАЛ",
-    back: "Назад",
-    mines_count: "Мин:",
-    opened_text: "Открыто:",
-    new_signal: "НОВЫЙ СИГНАЛ",
-    alert_lucky: (c) => `СИГНАЛ x${c}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`,
-    alert_mines: (n) => `СИГНАЛ ГОТОВ!\nОткрыто ${n} безопасных ячеек\n\nСтавь — 100% профит!`
-  },
-  en: {
-    title: "Al GENZO HACK 2025",
-    luckyjet: "Lucky Jet",
-    mines: "Mines",
-    play: "PLAY",
-    loading: "Loading...",
-    get_signal: "GET SIGNAL",
-    back: "Back",
-    mines_count: "Mines:",
-    opened_text: "Opened:",
-    new_signal: "NEW SIGNAL",
-    alert_lucky: (c) => `SIGNAL x${c}\n100% FLY — CASH OUT EARLY!`,
-    alert_mines: (n) => `SIGNAL READY!\n${n} safe cells opened\n\nBet — 100% profit!`
-  },
-  tr: {
-    title: "Al GENZO HACK 2025",
-    luckyjet: "Lucky Jet",
-    mines: "Mines",
-    play: "OYNA",
-    loading: "Yükleniyor...",
-    get_signal: "SİNYAL AL",
-    back: "Geri",
-    mines_count: "Mayın:",
-    opened_text: "Açıldı:",
-    new_signal: "YENİ SİNYAL",
-    alert_lucky: (c) => `SİNYAL x${c}\n%100 UÇUŞ — BELİRTİLEN DEN ÖNCE ÇEK!`,
-    alert_mines: (n) => `SİNYAL HAZIR!\n${n} güvenli hücre açıldı\n\nBahis yap — %100 kâr!`
-  }
+  ru: { title: "Al GENZO HACK 2025", luckyjet: "Lucky Jet", mines: "Mines", play: "ИГРАТЬ", loading: "Загрузка...", get_signal: "ПОЛУЧИТЬ СИГНАЛ", back: "Назад", mines_count: "Мин:", opened_text: "Открыто:", new_signal: "НОВЫЙ СИГНАЛ", alert_lucky: (c) => `СИГНАЛ x${c}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`, alert_mines: (n) => `СИГНАЛ ГОТОВ!\nОткрыто ${n} безопасных ячеек\n\nСтавь — 100% профит!` },
+  en: { title: "Al GENZO HACK 2025", luckyjet: "Lucky Jet", mines: "Mines", play: "PLAY", loading: "Loading...", get_signal: "GET SIGNAL", back: "Back", mines_count: "Mines:", opened_text: "Opened:", new_signal: "NEW SIGNAL", alert_lucky: (c) => `SIGNAL x${c}\n100% FLY — CASH OUT EARLY!`, alert_mines: (n) => `SIGNAL READY!\n${n} safe cells opened\n\nBet — 100% profit!` },
+  tr: { title: "Al GENZO HACK 2025", luckyjet: "Lucky Jet", mines: "Mines", play: "OYNA", loading: "Yükleniyor...", get_signal: "SİNYAL AL", back: "Geri", mines_count: "Mayın:", opened_text: "Açıldı:", new_signal: "YENİ SİNYAL", alert_lucky: (c) => `SİNYAL x${c}\n%100 UÇUŞ — BELİRTİLEN DEN ÖNCE ÇEK!`, alert_mines: (n) => `SİNYAL HAZIR!\n${n} güvenli hücre açıldı\n\nBahis yap — %100 kâr!` }
 };
 let currentLang = 'tr';
 
-// === УСТАНОВКА ЯЗЫКА ===
 function setLanguage(lang) {
   if (!translations[lang]) return;
   currentLang = lang;
@@ -536,7 +510,6 @@ function setLanguage(lang) {
   if (newSignalBtn) newSignalBtn.textContent = translations[lang].new_signal;
 }
 
-// Автоопределение языка
 if (Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
   const code = Telegram.WebApp.initDataUnsafe.user.language_code.toLowerCase();
   const lang = code.includes('tr') ? 'tr' : code.includes('ru') ? 'ru' : 'en';
@@ -545,13 +518,11 @@ if (Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
   setLanguage('tr');
 }
 
-// === НАВИГАЦИЯ ===
 function openLuckyJet() { hideAll(); document.getElementById('luckyjet').classList.remove('hidden'); setLanguage(currentLang); }
 function openMines() { hideAll(); document.getElementById('mines').classList.remove('hidden'); createMinesGrid(); setLanguage(currentLang); }
 function backToMenu() { hideAll(); document.getElementById('menu').classList.remove('hidden'); setLanguage(currentLang); }
 function hideAll() { document.querySelectorAll('.game-screen, #menu').forEach(el => el.classList.add('hidden')); }
 
-// === LUCKY JET ===
 function startLuckyJet() {
   document.getElementById('preview').classList.add('hidden');
   document.getElementById('lucky-game').classList.remove('hidden');
@@ -600,20 +571,11 @@ function generateLuckySignal() {
   }, 1800);
 }
 
-// === MINES ===
 let minesCount = 7;
 let minesField = [];
 let minesCooldown = false;
 
-const closedCells = [
-  "image_95509 (1).svg","image_89353 (1).svg","image_82645 (1).svg","image_75949 (1).svg",
-  "image_69793 (1).svg","image_63085 (1).svg","image_56929 (1).svg","image_5450 (1).svg",
-  "image_50221 (1).svg","image_44065 (1).svg","image_37357 (1).svg","image_31201 (1).svg",
-  "image_24493 (1).svg","image_18337 (1).svg","image_159757 (1).svg","image_153061 (1).svg",
-  "image_146917 (1).svg","image_140221 (1).svg","image_134077 (1).svg","image_127381 (1).svg",
-  "image_121237 (1).svg","image_11641 (1).svg","image_115081 (1).svg","image_108373 (1).svg",
-  "image_102217 (2).svg"
-];
+const closedCells = Array(25).fill('https://via.placeholder.com/80x80/002244/00aaff?text=?');
 
 function createMinesGrid() {
   const field = document.getElementById('mines-field');
@@ -623,8 +585,8 @@ function createMinesGrid() {
     const div = document.createElement('div');
     div.className = 'mine-tile';
     div.innerHTML = `
-      <img class="closed" src="assets/mines/cells/${closedCells[i]}">
-      <img class="star" src="assets/mines/star.svg">
+      <div class="closed" style="width:100%; height:100%; background:linear-gradient(45deg, #002244, #004466); display:flex; align-items:center; justify-content:center; font-size:24px; color:#00aaff;">?</div>
+      <img class="star" src="https://i.ibb.co/9bY8Y8Y/star.png" onerror="this.style.display='none'">
     `;
     field.appendChild(div);
   }
@@ -701,6 +663,3 @@ function getMinesSignal() {
 
 </body>
 </html>
-
-
-
