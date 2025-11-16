@@ -325,7 +325,7 @@ body, html {
   padding: 0 15px;
   z-index: 50;
   text-align: center;
-  top: 50%; /* ПРЯМО ПОД СЕТКОЙ */
+  top: 45%; /* ПРЯМО ПОД СЕТКОЙ */
 }
 
 .mines-count {
@@ -434,5 +434,6 @@ body, html {
   0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); }
   100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); }
 }
+
 
 
