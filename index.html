@@ -32,20 +32,22 @@
       <p>Загрузка...</p>
     </div>
 
-    <!-- ДЖЕТМЕН -->
-    <img id="jetman" src="assets/jetman.png" />
-    <img id="fire" src="assets/jetpack_fire.svg" />
+    <!-- ЦЕНТР: ОРБИТА -->
+    <div id="center-orbit">
+      <!-- КОЭФФИЦИЕНТ — ФИОЛЕТОВЫЙ, БЕЗ СВЕЧЕНИЯ -->
+      <div id="multiplier">x2.18</div>
 
-    <!-- КОЭФФИЦИЕНТ — ФИОЛЕТОВЫЙ, ПО ЦЕНТРУ -->
-    <div id="multiplier">x2.18</div>
+      <!-- ДЖЕТМЕН + ОГОНЬ -->
+      <img id="jetman" src="assets/jetman.png" />
+      <img id="fire" src="assets/jetpack_fire.svg" />
+    </div>
 
-    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" — ФИОЛЕТОВАЯ, ТЕКСТ БЕЛЫЙ -->
+    <!-- КНОПКА "ПОЛУЧИТЬ СИГНАЛ" — ФИОЛЕТОВАЯ -->
     <button id="get-signal" onclick="generateSignal()">ПОЛУЧИТЬ СИГНАЛ</button>
   </div>
 
   <script>
-    // МЕНЯЙ КОЭФФИЦИЕНТ ЗДЕСЬ!
-    let currentCoeff = 2.18; // ← Первый сигнал
+    let currentCoeff = 2.18;
 
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
@@ -59,7 +61,7 @@
     }
 
     function generateSignal() {
-      currentCoeff = 4.56; // ← МЕНЯЙ ЗДЕСЬ (следующий сигнал)
+      currentCoeff = 4.56;
       updateCoeff(currentCoeff);
     }
 
