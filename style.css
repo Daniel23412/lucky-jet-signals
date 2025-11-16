@@ -300,7 +300,7 @@ body, html {
 }
 #mines-header .mines-title {
   margin: 0 auto;
-  font-size: 42px;
+  font-size: -10px;
   font-weight: bold;
   color: #00d4ff;
   text-shadow: 0 0 30px #00aaff, 0 0 60px #0088ff;
@@ -434,6 +434,7 @@ body, html {
   0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); }
   100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); }
 }
+
 
 
 
