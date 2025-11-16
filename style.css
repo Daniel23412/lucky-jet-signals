@@ -192,7 +192,7 @@ body, html {
 
 #mines-header .mines-title {
   position: relative;
-  top: auto;
+  top: -100px;
   left: auto;
   transform: none;
   margin: 0 auto;
@@ -295,6 +295,7 @@ body, html {
   from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
   to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+
 
 
 
