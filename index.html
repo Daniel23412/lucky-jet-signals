@@ -2,12 +2,415 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Al GENZO HACK 2025</title>
-  <link rel="stylesheet" href="style.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body, html {
+      background:#000;
+      color:#fff;
+      font-family:Arial, sans-serif;
+      height:100vh;
+      overflow:hidden;
+      user-select:none;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .hidden { display:none !important; }
+
+    /* === МЕНЮ === */
+    #menu {
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      background:radial-gradient(circle at center,#1a0033,#000);
+      padding:15px;
+      text-align:center;
+    }
+    #menu .games-row {
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      margin-bottom:50px;
+      flex-wrap:wrap;
+    }
+    .game-card {
+      width:100%;
+      max-width:140px;
+      cursor:pointer;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 12px 40px rgba(156,39,176,0.7);
+      transition:0.3s;
+    }
+    .game-card img { width:100%; border-radius:18px; }
+    .game-card .game-label {
+      position:absolute;
+      bottom:0; left:0; right:0;
+      background:linear-gradient(180deg,transparent,rgba(0,0,0,0.9));
+      color:#fff;
+      font-size:22px;
+      font-weight:bold;
+      padding:24px 12px 12px;
+      text-shadow:0 0 10px #000;
+    }
+    .game-card:hover { transform:scale(1.08); box-shadow:0 18px 55px rgba(156,39,176,0.9); }
+    #menu h1 { font-size:32px; margin:0 0 40px; text-shadow:0 0 25px #e040fb; }
+
+    .lang-flags {
+      display:flex; justify-content:center; gap:15px; margin-top:15px;
+    }
+    .lang-flag {
+      cursor:pointer; width:44px; height:44px; border-radius:50%;
+      box-shadow:0 0 12px rgba(255,255,255,0.3); transition:0.2s;
+    }
+    .lang-flag:hover { transform:scale(1.15); }
+    .lang-flag.active { box-shadow:0 0 20px #fff, 0 0 30px #00ff00; transform:scale(1.1); }
+
+    /* === ОБЩЕЕ === */
+    .game-screen { height:100vh; position:relative; background:#0a001f; overflow:hidden; }
+
+    /* === LUCKY JET — ПОЛНАЯ МОБИЛЬНАЯ АДАПТАЦИЯ === */
+    #luckyjet { position:relative; }
+    #preview {
+      position:fixed; top:0; left:0; width:100%; height:100%; background:#000;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      cursor:pointer; z-index:9999;
+    }
+    #preview img { width:85%; max-width:360px; border-radius:18px; }
+    .play-btn {
+      margin-top:25px;
+      background:#00ff00;
+      color:#000;
+      padding:16px 45px;
+      border-radius:50px;
+      font-weight:bold;
+      font-size:20px;
+      box-shadow:0 0 20px #0f0;
+      animation:pulse 1.5s infinite;
+    }
+
+    #lucky-game {
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+    #game-bg.moving-bg {
+      position:absolute;
+      width:200%;
+      height:100%;
+      object-fit:cover;
+      animation: moveBg 140s linear infinite;
+      filter:brightness(0.7);
+    }
+    @keyframes moveBg { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+
+    #stars {
+      position:absolute;
+      width:200%;
+      height:100%;
+      background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"><circle cx="30" cy="30" r="1.5" fill="white"/><circle cx="100" cy="20" r="1" fill="white"/><circle cx="60" cy="90" r="1.8" fill="white"/><circle cx="120" cy="110" r="1.2" fill="white"/></svg>') repeat;
+      background-size:100px;
+      opacity:0.7;
+      animation: starsMove 100s linear infinite;
+    }
+    @keyframes starsMove { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+
+    #clouds {
+      position:absolute; width:200%; height:35%; bottom:0;
+      background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30"><path d="M0,25 Q15,20 30,25 T60,25 Q75,20 90,25 L100,30 L0,30 Z" fill="%236a1b9a" opacity="0.25"/></svg>') repeat-x;
+      background-size:160px 50px;
+      animation:clouds 60s linear infinite;
+    }
+    @keyframes clouds { from { background-position:0 0; } to { background-position:-400px 0; } }
+
+    #luckyjet-title {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 340px;
+      height: 90px;
+      z-index: 100;
+    }
+    #luckyjet-title text {
+      font-size: 52px !important;
+    }
+
+    #preloader {
+      position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.97);
+      display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:999;
+    }
+    .loader { width:70px; height:70px; animation:spin 1.5s linear infinite; }
+
+    #center-orbit {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:240px; height:240px; z-index:10;
+    }
+    #multiplier {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      font-size:62px; font-weight:bold; color:#e040fb; text-shadow:0 0 25px #e040fb; z-index:5;
+    }
+    #jetman-container {
+      position:absolute; width:100px; height:100px; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      animation:orbit 10s linear infinite;
+    }
+    #jetman {
+      position:absolute; width:85px; top:50%; left:50%; transform:translate(-50%,-50%);
+      filter:drop-shadow(0 0 18px #ff9800);
+    }
+    #fire {
+      position:absolute; width:50px; bottom:-30px; left:50%; transform:translateX(-50%);
+      animation:fire 0.3s infinite alternate;
+    }
+
+    #lucky-timer {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 15;
+    }
+    #get-signal {
+      background: #9c27b0;
+      color: #fff;
+      border: none;
+      padding: 16px 50px;
+      border-radius: 36px;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 30px #ba68c8;
+      transition: 0.3s;
+    }
+    #get-signal:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+
+    /* === MINES — ИДЕАЛЬНО АДАПТИРОВАНО === */
+    #mines {
+      position:relative;
+      padding:0 15px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      align-items:center;
+    }
+    #mines-header {
+      position: absolute;
+      top: 16px;
+      left: 15px;
+      right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      pointer-events: none;
+    }
+    #mines-header .back {
+      font-size: 20px;
+      color: #00d4ff;
+      background: none;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      text-shadow: 0 0 15px #00aaff;
+      pointer-events: auto;
+      padding: 8px 12px;
+    }
+    #mines-header .mines-title {
+      font-size: 36px;
+      font-weight: bold;
+      color: #00d4ff;
+      text-shadow: 0 0 25px #00aaff, 0 0 50px #0088ff;
+      flex: 1;
+      text-align: center;
+      margin: 0 40px;
+      pointer-events: none;
+    }
+    #mines-field {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      max-width: 460px;
+      width: 100%;
+      margin: 90px auto 0;
+      flex-grow: 0;
+    }
+    .mine-tile {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,170,255,0.25);
+      background: #001122;
+    }
+    .mine-tile img.closed {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: opacity 0.4s ease;
+    }
+    .mine-tile.opened img.closed { opacity: 0; }
+    .mine-tile .star {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(0);
+      width: 48px; height: 48px;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    .mine-tile.opened .star {
+      transform: translate(-50%,-50%) scale(1);
+      opacity: 1;
+    }
+    .mines-controls {
+      width: 100%;
+      max-width: 460px;
+      margin: 16px auto 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex-grow: 1;
+      justify-content: center;
+    }
+    .mines-count {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .mines-count span {
+      font-size: 26px;
+      color: #00eeff;
+      font-weight: bold;
+    }
+    .count-btns button {
+      padding: 14px 20px;
+      background: #002233;
+      border: 2px solid #004466;
+      border-radius: 16px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      min-width: 50px;
+      transition: 0.3s;
+    }
+    .count-btns button.active {
+      background: #0088ff !important;
+      border-color: #00ccff;
+      box-shadow: 0 0 25px #0088ff;
+      transform: scale(1.12);
+    }
+    .mines-info {
+      font-size: 30px;
+      color: #00eeff;
+      font-weight: bold;
+      text-shadow: 0 0 15px #00aaff;
+    }
+    .mines-panel.blue {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(180deg, #001122, #000b1f);
+      padding: 20px;
+      text-align: center;
+      border-top: 2px solid #00d4ff;
+      box-shadow: 0 0 30px rgba(0,212,255,0.5);
+    }
+    #mines-timer button {
+      background: linear-gradient(45deg, #0066ff, #00aaff);
+      color: #fff;
+      padding: 14px 48px;
+      border-radius: 32px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,102,255,0.6);
+    }
+    #mines-timer button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .progress-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .timer-button.countdown .progress-ring { opacity: 1; }
+    .progress-ring__progress { stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+
+    /* === КНОПКИ НАЗАД === */
+    .back {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-size: 20px;
+      color: #fff;
+      background: none;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 100;
+      text-shadow: 0 0 15px #e040fb;
+    }
+
+    /* === АДАПТАЦИЯ ПОД ТЕЛЕФОН === */
+    @media (max-width: 480px) {
+      #menu h1 { font-size: 28px; margin-bottom: 35px; }
+      .game-card { max-width: 125px; }
+      .game-card .game-label { font-size: 20px; padding: 20px 10px 10px; }
+      #luckyjet-title { width: 300px; top: 60px; }
+      #luckyjet-title text { font-size: 48px !important; }
+      #center-orbit { width: 220px; height: 220px; }
+      #multiplier { font-size: 56px; }
+      #get-signal { padding: 14px 44px; font-size: 17px; }
+      #mines-header { top: 12px; left: 12px; right: 12px; }
+      #mines-header .back { font-size: 18px; padding: 6px 10px; }
+      #mines-header .mines-title { font-size: 32px; margin: 0 36px; }
+      #mines-field { margin-top: 78px; gap: 9px; }
+      .mines-controls { margin: 14px auto 0; gap: 8px; }
+      .mines-count span { font-size: 24px; }
+      .count-btns button { padding: 12px 18px; font-size: 17px; min-width: 48px; }
+      .mines-info { font-size: 28px; }
+      .mines-panel.blue { padding: 18px; }
+      #mines-timer button { padding: 13px 44px; font-size: 17px; }
+      .back { top: 12px; left: 12px; font-size: 18px; }
+    }
+
+    @media (max-width: 360px) {
+      #menu h1 { font-size: 26px; }
+      .game-card { max-width: 110px; }
+      .game-card .game-label { font-size: 18px; }
+      #luckyjet-title { width: 260px; top: 55px; }
+      #luckyjet-title text { font-size: 44px !important; }
+      #center-orbit { width: 200px; height: 200px; }
+      #multiplier { font-size: 50px; }
+      #get-signal { padding: 12px 38px; font-size: 16px; }
+      #mines-header .mines-title { font-size: 28px; margin: 0 32px; }
+      #mines-field { margin-top: 70px; gap: 8px; }
+      .mines-controls { margin: 12px auto 0; }
+      .mines-count span { font-size: 22px; }
+      .count-btns button { padding: 11px 16px; font-size: 16px; }
+      .mines-info { font-size: 26px; }
+      #mines-timer button { padding: 12px 40px; font-size: 16px; }
+    }
+
+    @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+    @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
+    @keyframes fire { 0% { opacity:0.8; } 100% { opacity:1; transform:scale(1.2) translateY(-6px); } }
+    @keyframes orbit {
+      0% { transform:translate(-50%,-50%) rotate(0deg) translateX(120px) rotate(0deg); }
+      100% { transform:translate(-50%,-50%) rotate(360deg) translateX(120px) rotate(-360deg); }
+    }
+  </style>
 </head>
 <body>
+
   <!-- МЕНЮ -->
   <div id="menu">
     <div class="games-row">
@@ -21,8 +424,6 @@
       </div>
     </div>
     <h1 data-ru="Al GENZO HACK 2025" data-en="Al GENZO HACK 2025" data-tr="Al GENZO HACK 2025">Al GENZO HACK 2025</h1>
-    
-    <!-- ФЛАГИ ЯЗЫКОВ -->
     <div class="lang-flags">
       <img src="https://flagcdn.com/w80/ru.png" alt="RU" class="lang-flag active" data-lang="ru" onclick="setLanguage('ru')">
       <img src="https://flagcdn.com/w80/gb.png" alt="EN" class="lang-flag" data-lang="en" onclick="setLanguage('en')">
@@ -40,11 +441,10 @@
       <img id="game-bg" src="assets/background.jpg" class="moving-bg">
       <div id="stars"></div>
       <div id="clouds"></div>
-   
-      <!-- SVG НАЗВАНИЕ ПО ЦЕНТРУ -->
+
       <svg id="luckyjet-title" viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
-        <text x="200" y="70" font-family="Arial Black, Arial" font-size="60" font-weight="900" 
-              fill="#e040fb" stroke="#ba68c8" stroke-width="2" text-anchor="middle" 
+        <text x="200" y="70" font-family="Arial Black, Arial" font-size="60" font-weight="900"
+              fill="#e040fb" stroke="#ba68c8" stroke-width="2" text-anchor="middle"
               filter="url(#glow)">LUCKY JET</text>
         <defs>
           <filter id="glow">
@@ -53,12 +453,12 @@
           </filter>
         </defs>
       </svg>
-      
+
       <div id="preloader">
         <img src="assets/preloader.svg" class="loader">
         <p data-ru="Загрузка..." data-en="Loading..." data-tr="Yükleniyor...">Загрузка...</p>
       </div>
-    
+
       <div id="center-orbit">
         <div id="multiplier">x1.00</div>
         <div id="jetman-container">
@@ -66,31 +466,28 @@
           <img id="fire" src="assets/jetpack_fire.svg">
         </div>
       </div>
-    
+
       <div class="timer-button" id="lucky-timer">
         <button id="get-signal" onclick="generateLuckySignal()" data-ru="ПОЛУЧИТЬ СИГНАЛ" data-en="GET SIGNAL" data-tr="SİNYAL AL">ПОЛУЧИТЬ СИГНАЛ</button>
-        <svg class="progress-ring" width="160" height="160">
-          <circle class="progress-ring__circle" stroke="#333" stroke-width="5" fill="transparent" r="72" cx="80" cy="80"/>
-          <circle class="progress-ring__progress" stroke="#ba68c8" stroke-width="8" fill="transparent" r="72" cx="80" cy="80"/>
+        <svg class="progress-ring" width="150" height="150">
+          <circle class="progress-ring__circle" stroke="#333" stroke-width="5" fill="transparent" r="68" cx="75" cy="75"/>
+          <circle class="progress-ring__progress" stroke="#ba68c8" stroke-width="8" fill="transparent" r="68" cx="75" cy="75"/>
         </svg>
       </div>
-   
+
       <button class="back" onclick="backToMenu()" data-ru="Назад" data-en="Back" data-tr="Geri">Назад</button>
     </div>
   </div>
 
   <!-- MINES -->
   <div id="mines" class="game-screen hidden">
-    <!-- ХЕДЕР: НАЗАД + НАЗВАНИЕ -->
     <div id="mines-header">
       <button class="back" onclick="backToMenu()" data-ru="Назад" data-en="Back" data-tr="Geri">Назад</button>
       <h2 class="mines-title" data-ru="Mines" data-en="Mines" data-tr="Mayınlar">Mines</h2>
     </div>
-    
-    <!-- СЕТКА -->
+
     <div id="mines-field"></div>
-    
-    <!-- КНОПКИ МИН + ИНФО (ПРЯМО ПОД СЕТКОЙ) -->
+
     <div class="mines-controls">
       <div class="mines-count">
         <span data-ru="Мин:" data-en="Mines:" data-tr="Mayın:">Мин:</span>
@@ -105,231 +502,218 @@
         <span data-ru="Открыто:" data-en="Opened:" data-tr="Açılan:">Открыто:</span> <span id="opened">0</span>/25
       </div>
     </div>
-    
-    <!-- ПАНЕЛЬ С КНОПКОЙ СИГНАЛА -->
+
     <div class="mines-panel blue">
       <div class="timer-button" id="mines-timer">
         <button id="signal-btn" class="blue-btn small" onclick="getMinesSignal()" data-ru="НОВЫЙ СИГНАЛ" data-en="NEW SIGNAL" data-tr="YENİ SİNYAL">НОВЫЙ СИГНАЛ</button>
-        <svg class="progress-ring" width="180" height="180">
-          <circle class="progress-ring__circle" stroke="#002233" stroke-width="5" fill="transparent" r="80" cx="90" cy="90"/>
-          <circle class="progress-ring__progress" stroke="#00d4ff" stroke-width="7" fill="transparent" r="80" cx="90" cy="90"/>
+        <svg class="progress-ring" width="170" height="170">
+          <circle class="progress-ring__circle" stroke="#002233" stroke-width="5" fill="transparent" r="78" cx="85" cy="85"/>
+          <circle class="progress-ring__progress" stroke="#00d4ff" stroke-width="7" fill="transparent" r="78" cx="85" cy="85"/>
         </svg>
       </div>
     </div>
   </div>
 
-<script>
-Telegram?.WebApp?.ready();
-Telegram?.WebApp?.expand();
+  <script>
+    Telegram?.WebApp?.ready();
+    Telegram?.WebApp?.expand();
+    let currentLang = 'ru';
+    let minesCount = 7;
+    let minesField = [];
+    let isFirstLuckySignal = true;
+    let luckyCooldown = false;
+    let minesCooldown = false;
 
-let currentLang = 'ru';
-let minesCount = 7;
-let minesField = [];
-let isFirstLuckySignal = true;
-let luckyCooldown = false;
-let minesCooldown = false;
+    const translations = {
+      luckySignalAlert: {
+        ru: (coeff) => `СИГНАЛ x${coeff}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`,
+        en: (coeff) => `SIGNAL x${coeff}\n100% FLY — CASH OUT EARLY!`,
+        tr: (coeff) => `SİNYAL x${coeff}\n%100 UÇUŞ — BELİRTİLENİN ÖNCESİNDE ÇEK!`
+      },
+      minesSignalAlert: {
+        ru: (count) => `СИГНАЛ ГОТОВ!\nОткрыто ${count} безопасных ячеек\n\nСтавь — 100% профит!`,
+        en: (count) => `SIGNAL READY!\n${count} safe cells opened\n\nBet — 100% profit!`,
+        tr: (count) => `SİNYAL HAZIR!\n${count} güvenli hücre açıldı\n\nBahis yap — %100 kâr!`
+      }
+    };
 
-const translations = {
-  luckySignalAlert: {
-    ru: (coeff) => `СИГНАЛ x${coeff}\nУЛЁТ 100% — ЗАБИРАЙ РАНЬШЕ ЧЕМ УКАЗАНО!`,
-    en: (coeff) => `SIGNAL x${coeff}\n100% FLY — CASH OUT EARLY!`,
-    tr: (coeff) => `SİNYAL x${coeff}\n%100 UÇUŞ — BELİRTİLENİN ÖNCESİNDE ÇEK!`
-  },
-  minesSignalAlert: {
-    ru: (count) => `СИГНАЛ ГОТОВ!\nОткрыто ${count} безопасных ячеек\n\nСтавь — 100% профит!`,
-    en: (count) => `SIGNAL READY!\n${count} safe cells opened\n\nBet — 100% profit!`,
-    tr: (count) => `SİNYAL HAZIR!\n${count} güvenli hücre açıldı\n\nBahis yap — %100 kâr!`
-  }
-};
+    const closedCells = [
+      "image_95509 (1).svg","image_89353 (1).svg","image_82645 (1).svg","image_75949 (1).svg",
+      "image_69793 (1).svg","image_63085 (1).svg","image_56929 (1).svg","image_5450 (1).svg",
+      "image_50221 (1).svg","image_44065 (1).svg","image_37357 (1).svg","image_31201 (1).svg",
+      "image_24493 (1).svg","image_18337 (1).svg","image_159757 (1).svg","image_153061 (1).svg",
+      "image_146917 (1).svg","image_140221 (1).svg","image_134077 (1).svg","image_127381 (1).svg",
+      "image_121237 (1).svg","image_11641 (1).svg","image_115081 (1).svg","image_108373 (1).svg",
+      "image_102217 (2).svg"
+    ];
 
-const closedCells = [
-  "image_95509 (1).svg","image_89353 (1).svg","image_82645 (1).svg","image_75949 (1).svg",
-  "image_69793 (1).svg","image_63085 (1).svg","image_56929 (1).svg","image_5450 (1).svg",
-  "image_50221 (1).svg","image_44065 (1).svg","image_37357 (1).svg","image_31201 (1).svg",
-  "image_24493 (1).svg","image_18337 (1).svg","image_159757 (1).svg","image_153061 (1).svg",
-  "image_146917 (1).svg","image_140221 (1).svg","image_134077 (1).svg","image_127381 (1).svg",
-  "image_121237 (1).svg","image_11641 (1).svg","image_115081 (1).svg","image_108373 (1).svg",
-  "image_102217 (2).svg"
-];
-
-// === ЯЗЫКОВАЯ СИСТЕМА ===
-function setLanguage(lang) {
-  if (currentLang === lang) return;
-  currentLang = lang;
-  updateTexts();
-  document.querySelectorAll('.lang-flag').forEach(f => {
-    f.classList.toggle('active', f.dataset.lang === lang);
-  });
-}
-
-function updateTexts() {
-  document.querySelectorAll('[data-ru]').forEach(el => {
-    const key = `data-${currentLang}`;
-    if (el.hasAttribute(key)) {
-      const text = el.getAttribute(key);
-      if (el.tagName === 'BUTTON' && el.disabled) return;
-      el.textContent = text;
+    function setLanguage(lang) {
+      if (currentLang === lang) return;
+      currentLang = lang;
+      updateTexts();
+      document.querySelectorAll('.lang-flag').forEach(f => {
+        f.classList.toggle('active', f.dataset.lang === lang);
+      });
     }
-  });
-}
 
-// === НАВИГАЦИЯ ===
-function openLuckyJet() { hideAll(); document.getElementById('luckyjet').classList.remove('hidden'); updateTexts(); }
-function openMines() { hideAll(); document.getElementById('mines').classList.remove('hidden'); createMinesGrid(); updateTexts(); }
-function backToMenu() { hideAll(); document.getElementById('menu').classList.remove('hidden'); updateTexts(); }
-function hideAll() { document.querySelectorAll('.game-screen, #menu').forEach(el => el.classList.add('hidden')); }
+    function updateTexts() {
+      document.querySelectorAll('[data-ru]').forEach(el => {
+        const key = `data-${currentLang}`;
+        if (el.hasAttribute(key)) {
+          const text = el.getAttribute(key);
+          if (el.tagName === 'BUTTON' && el.disabled) return;
+          el.textContent = text;
+        }
+      });
+    }
 
-// === LUCKY JET ===
-function startLuckyJet() {
-  document.getElementById('preview').classList.add('hidden');
-  document.getElementById('lucky-game').classList.remove('hidden');
-  setTimeout(() => document.getElementById('preloader').style.display = 'none', 1500);
-}
+    function openLuckyJet() { hideAll(); document.getElementById('luckyjet').classList.remove('hidden'); updateTexts(); }
+    function openMines() { hideAll(); document.getElementById('mines').classList.remove('hidden'); createMinesGrid(); updateTexts(); }
+    function backToMenu() { hideAll(); document.getElementById('menu').classList.remove('hidden'); updateTexts(); }
+    function hideAll() { document.querySelectorAll('.game-screen, #menu').forEach(el => el.classList.add('hidden')); }
 
-function startLuckyCooldown() {
-  const btn = document.getElementById('get-signal');
-  const timerBtn = document.getElementById('lucky-timer');
-  const progressCircle = timerBtn.querySelector('.progress-ring__progress');
- 
-  luckyCooldown = true;
-  btn.disabled = true;
-  btn.textContent = "15";
-  timerBtn.classList.add('countdown');
-  const circumference = 2 * Math.PI * 72;
-  progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-  progressCircle.style.strokeDashoffset = circumference;
-  let timeLeft = 15;
-  const interval = setInterval(() => {
-    timeLeft--;
-    btn.textContent = timeLeft > 0 ? timeLeft : btn.dataset[currentLang];
-    const offset = circumference - (timeLeft / 15) * circumference;
-    progressCircle.style.strokeDashoffset = offset;
-    if (timeLeft <= 0) {
-      clearInterval(interval);
-      luckyCooldown = false;
-      btn.disabled = false;
-      timerBtn.classList.remove('countdown');
+    function startLuckyJet() {
+      document.getElementById('preview').classList.add('hidden');
+      document.getElementById('lucky-game').classList.remove('hidden');
+      setTimeout(() => document.getElementById('preloader').style.display = 'none', 1500);
+    }
+
+    function startLuckyCooldown() {
+      const btn = document.getElementById('get-signal');
+      const timerBtn = document.getElementById('lucky-timer');
+      const progressCircle = timerBtn.querySelector('.progress-ring__progress');
+      luckyCooldown = true;
+      btn.disabled = true;
+      btn.textContent = "15";
+      timerBtn.classList.add('countdown');
+      const circumference = 2 * Math.PI * 68;
+      progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
       progressCircle.style.strokeDashoffset = circumference;
-      btn.textContent = btn.dataset[currentLang];
+      let timeLeft = 15;
+      const interval = setInterval(() => {
+        timeLeft--;
+        btn.textContent = timeLeft > 0 ? timeLeft : btn.dataset[currentLang];
+        const offset = circumference - (timeLeft / 15) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          luckyCooldown = false;
+          btn.disabled = false;
+          timerBtn.classList.remove('countdown');
+          progressCircle.style.strokeDashoffset = circumference;
+          btn.textContent = btn.dataset[currentLang];
+        }
+      }, 1000);
     }
-  }, 1000);
-}
 
-function generateLuckySignal() {
-  if (luckyCooldown) return;
- 
-  const btn = document.getElementById('get-signal');
-  btn.disabled = true;
-  btn.textContent = currentLang === 'ru' ? "Проверка..." : currentLang === 'en' ? "Checking..." : "Kontrol...";
-  
-  setTimeout(() => {
-    let coeff;
-    if (isFirstLuckySignal) {
-      coeff = 4.20;
-      isFirstLuckySignal = false;
-    } else {
-      coeff = (Math.random() * 18.5 + 1.5).toFixed(2);
-    }
-    document.getElementById('multiplier').textContent = `x${coeff}`;
-    Telegram?.WebApp?.showAlert(translations.luckySignalAlert[currentLang](coeff));
-    Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-    startLuckyCooldown();
-  }, 1800);
-}
-
-// === MINES ===
-function createMinesGrid() {
-  const field = document.getElementById('mines-field');
-  field.innerHTML = '';
-  document.getElementById('opened').textContent = '0';
-  for (let i = 0; i < 25; i++) {
-    const div = document.createElement('div');
-    div.className = 'mine-tile';
-    div.innerHTML = `
-      <img class="closed" src="assets/mines/cells/${closedCells[i]}">
-      <img class="star" src="assets/mines/star.svg">
-    `;
-    field.appendChild(div);
-  }
-}
-
-function setMines(n) {
-  minesCount = n;
-  document.querySelectorAll('.count-btns button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-}
-
-function startMinesCooldown() {
-  const btn = document.getElementById('signal-btn');
-  const timerBtn = document.getElementById('mines-timer');
-  const progressCircle = timerBtn.querySelector('.progress-ring__progress');
- 
-  minesCooldown = true;
-  btn.disabled = true;
-  btn.textContent = "10";
-  timerBtn.classList.add('countdown');
-  const circumference = 2 * Math.PI * 80;
-  progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-  progressCircle.style.strokeDashoffset = circumference;
-  let timeLeft = 10;
-  const interval = setInterval(() => {
-    timeLeft--;
-    btn.textContent = timeLeft > 0 ? timeLeft : btn.dataset[currentLang];
-    const offset = circumference - (timeLeft / 10) * circumference;
-    progressCircle.style.strokeDashoffset = offset;
-    if (timeLeft <= 0) {
-      clearInterval(interval);
-      minesCooldown = false;
-      btn.disabled = false;
-      timerBtn.classList.remove('countdown');
-      progressCircle.style.strokeDashoffset = circumference;
-      btn.textContent = btn.dataset[currentLang];
-    }
-  }, 1000);
-}
-
-function getMinesSignal() {
-  if (minesCooldown) return;
-  createMinesGrid();
-  minesField = Array(25).fill('star');
-  const bombs = new Set();
-  while (bombs.size < minesCount) bombs.add(Math.floor(Math.random() * 25));
-  bombs.forEach(i => minesField[i] = 'bomb');
- 
-  const btn = document.getElementById('signal-btn');
-  btn.textContent = currentLang === 'ru' ? 'Сигнал...' : currentLang === 'en' ? 'Signal...' : 'Sinyal...';
-  btn.disabled = true;
-  
-  setTimeout(() => {
-    const tiles = document.querySelectorAll('.mine-tile');
-    const openCount = minesCount === 1 ? 10 : minesCount === 3 ? 8 : minesCount === 5 ? 6 : 4;
-    const safe = [];
-    for (let i = 0; i < 25; i++) if (minesField[i] === 'star') safe.push(i);
-    for (let i = safe.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [safe[i], safe[j]] = [safe[j], safe[i]];
-    }
-    let opened = 0;
-    for (let i = 0; i < openCount; i++) {
-      const idx = safe[i];
+    function generateLuckySignal() {
+      if (luckyCooldown) return;
+      const btn = document.getElementById('get-signal');
+      btn.disabled = true;
+      btn.textContent = currentLang === 'ru' ? "Проверка..." : currentLang === 'en' ? "Checking..." : "Kontrol...";
       setTimeout(() => {
-        tiles[idx].classList.add('opened');
-        document.getElementById('opened').textContent = ++opened;
-      }, i * 220);
+        let coeff;
+        if (isFirstLuckySignal) {
+          coeff = 4.20;
+          isFirstLuckySignal = false;
+        } else {
+          coeff = (Math.random() * 18.5 + 1.5).toFixed(2);
+        }
+        document.getElementById('multiplier').textContent = `x${coeff}`;
+        Telegram?.WebApp?.showAlert(translations.luckySignalAlert[currentLang](coeff));
+        Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
+        startLuckyCooldown();
+      }, 1800);
     }
-    setTimeout(() => {
-      Telegram?.WebApp?.showAlert(translations.minesSignalAlert[currentLang](opened));
-      Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-      startMinesCooldown();
-    }, openCount * 220 + 1000);
-  }, 800);
-}
 
-window.addEventListener('load', () => {
-  updateTexts();
-});
-</script>
+    function createMinesGrid() {
+      const field = document.getElementById('mines-field');
+      field.innerHTML = '';
+      document.getElementById('opened').textContent = '0';
+      for (let i = 0; i < 25; i++) {
+        const div = document.createElement('div');
+        div.className = 'mine-tile';
+        div.innerHTML = `
+          <img class="closed" src="assets/mines/cells/${closedCells[i]}">
+          <img class="star" src="assets/mines/star.svg">
+        `;
+        field.appendChild(div);
+      }
+    }
+
+    function setMines(n) {
+      minesCount = n;
+      document.querySelectorAll('.count-btns button').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function startMinesCooldown() {
+      const btn = document.getElementById('signal-btn');
+      const timerBtn = document.getElementById('mines-timer');
+      const progressCircle = timerBtn.querySelector('.progress-ring__progress');
+      minesCooldown = true;
+      btn.disabled = true;
+      btn.textContent = "10";
+      timerBtn.classList.add('countdown');
+      const circumference = 2 * Math.PI * 78;
+      progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+      progressCircle.style.strokeDashoffset = circumference;
+      let timeLeft = 10;
+      const interval = setInterval(() => {
+        timeLeft--;
+        btn.textContent = timeLeft > 0 ? timeLeft : btn.dataset[currentLang];
+        const offset = circumference - (timeLeft / 10) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          minesCooldown = false;
+          btn.disabled = false;
+          timerBtn.classList.remove('countdown');
+          progressCircle.style.strokeDashoffset = circumference;
+          btn.textContent = btn.dataset[currentLang];
+        }
+      }, 1000);
+    }
+
+    function getMinesSignal() {
+      if (minesCooldown) return;
+      createMinesGrid();
+      minesField = Array(25).fill('star');
+      const bombs = new Set();
+      while (bombs.size < minesCount) bombs.add(Math.floor(Math.random() * 25));
+      bombs.forEach(i => minesField[i] = 'bomb');
+      const btn = document.getElementById('signal-btn');
+      btn.textContent = currentLang === 'ru' ? 'Сигнал...' : currentLang === 'en' ? 'Signal...' : 'Sinyal...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        const tiles = document.querySelectorAll('.mine-tile');
+        const openCount = minesCount === 1 ? 10 : minesCount === 3 ? 8 : minesCount === 5 ? 6 : 4;
+        const safe = [];
+        for (let i = 0; i < 25; i++) if (minesField[i] === 'star') safe.push(i);
+        for (let i = safe.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [safe[i], safe[j]] = [safe[j], safe[i]];
+        }
+        let opened = 0;
+        for (let i = 0; i < openCount; i++) {
+          const idx = safe[i];
+          setTimeout(() => {
+            tiles[idx].classList.add('opened');
+            document.getElementById('opened').textContent = ++opened;
+          }, i * 220);
+        }
+        setTimeout(() => {
+          Telegram?.WebApp?.showAlert(translations.minesSignalAlert[currentLang](opened));
+          Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
+          startMinesCooldown();
+        }, openCount * 220 + 1000);
+      }, 800);
+    }
+
+    window.addEventListener('load', () => {
+      updateTexts();
+    });
+  </script>
 </body>
 </html>
-
-
