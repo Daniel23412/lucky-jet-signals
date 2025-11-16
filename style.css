@@ -37,7 +37,7 @@ body, html { background:#000; overflow:hidden; font-family:Arial; height:100vh; 
 
 /* НАДПИСЬ "LUCKYJET" */
 #header-title {
-  position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+  position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
   width: 260px; z-index: 100; animation: fadeIn 1s;
   filter: drop-shadow(0 0 10px #ab47bc);
 }
@@ -114,3 +114,4 @@ body, html { background:#000; overflow:hidden; font-family:Arial; height:100vh; 
   0%   { transform: translate(-50%, -50%) rotate(0deg) translateX(160px) rotate(0deg); }
   100% { transform: translate(-50%, -50%) rotate(360deg) translateX(160px) rotate(-360deg); }
 }
+
