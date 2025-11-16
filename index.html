@@ -10,21 +10,24 @@
 
   <!-- ПРЕВЬЮ -->
   <div id="preview" onclick="startGame()">
-    <img src="assets/preview.png" alt="Preview" />
+    <img src="assets/preview.png" alt="Lucky Jet Preview" />
     <div class="play-btn">ИГРАТЬ</div>
   </div>
 
   <!-- ИГРА -->
   <div id="game" class="hidden">
+    <!-- ФОН -->
     <img id="game-bg" src="assets/background.jpg" />
 
-    <!-- ЗВЁЗДЫ И ОБЛАКА -->
+    <!-- ЗВЁЗДЫ -->
     <div id="stars"></div>
+
+    <!-- ОБЛАКА -->
     <div id="clouds"></div>
 
-    <!-- НАДПИСЬ — ПОЯВЛЯЕТСЯ ПОСЛЕ КЛИКА -->
+    <!-- НАДПИСЬ "LUCKYJET" СВЕРХУ -->
     <div id="header-title" class="hidden">
-      <img src="assets/luckyjet_text.svg" alt="Lucky Jet" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%2250%22><text x=%2250%25%22 y=%2250%25%22 font-size=%2236%22 fill=%22%23ff0%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-weight=%22bold%22>Lucky Jet</text></svg>'" />
+      <img src="assets/luckyjet_text.svg" alt="Lucky Jet" />
     </div>
 
     <!-- PRELOADER -->
@@ -44,18 +47,37 @@
 
     <!-- СИГНАЛ -->
     <div id="signal">СИГНАЛ: x3.21 → ВЫВОД!</div>
+
+    <!-- КНОПКА: СЛЕДУЮЩИЙ СИГНАЛ -->
+    <button id="next-signal" onclick="generateSignal()">СЛЕДУЮЩИЙ СИГНАЛ</button>
   </div>
 
   <script>
+    // МЕНЯЙ КОЭФФИЦИЕНТ ЗДЕСЬ!
+    let currentCoeff = 3.21; // ← ИЗМЕНИ ЗДЕСЬ (например: 4.56)
+
     function startGame() {
       document.getElementById('preview').classList.add('hidden');
       document.getElementById('game').classList.remove('hidden');
 
-      // Показать надпись после preloader
       setTimeout(() => {
-        document.getElementById('header-title').classList.remove('hidden');
         document.getElementById('preloader').classList.add('hidden');
+        document.getElementById('header-title').classList.remove('hidden');
+        updateSignal(currentCoeff);
       }, 3000);
+    }
+
+    function generateSignal() {
+      // МЕНЯЙ ЗДЕСЬ — НОВЫЙ КОЭФФИЦИЕНТ
+      currentCoeff = 4.56; // ← ИЗМЕНИ ЗДЕСЬ (или сделай рандом)
+
+      updateSignal(currentCoeff);
+    }
+
+    function updateSignal(coeff) {
+      const formatted = coeff.toFixed(2);
+      document.getElementById('multiplier').textContent = `x${formatted}`;
+      document.getElementById('signal').textContent = `СИГНАЛ: x${formatted} → ВЫВОД!`;
     }
   </script>
 </body>
