@@ -27,7 +27,9 @@
       <img id="game-bg" src="assets/background.jpg" class="moving-bg">
       <div id="stars"></div>
       <div id="clouds"></div>
-      <div id="header-title"><img src="assets/luckyjet_text.svg"></div>
+      
+      <!-- Надпись Lucky Jet опущена ниже -->
+      <div id="header-title" style="top: 80px;"><img src="assets/luckyjet_text.svg"></div>
 
       <div id="preloader">
         <img src="assets/preloader.svg" class="loader">
@@ -43,16 +45,19 @@
       </div>
 
       <button id="get-signal" onclick="generateLuckySignal()">ПОЛУЧИТЬ СИГНАЛ</button>
-      <button class="back" onclick="backToMenu()">Назад</button>
+      
+      <!-- Кнопка Назад опущена ниже -->
+      <button class="back" onclick="backToMenu()" style="top: 90px;">Назад</button>
     </div>
   </div>
 
   <!-- MINES -->
   <div id="mines" class="game-screen hidden">
-    <button class="back" onclick="backToMenu()">Назад</button>
+    <button class="back" onclick="backToMenu()" style="top: 20px;">Назад</button>
     <h2 class="mines-title">Mines</h2>
 
-    <div id="mines-field"></div>
+    <!-- Сетка опущена ниже -->
+    <div id="mines-field" style="margin-top: 90px;"></div>
 
     <div class="mines-panel blue">
       <div class="mines-count">
@@ -69,7 +74,8 @@
         <div>Открыто: <span id="opened">0</span>/25</div>
       </div>
 
-      <button id="signal-btn" class="blue-btn" onclick="getMinesSignal()">НОВЫЙ СИГНАЛ</button>
+      <!-- Кнопка меньше и красивее -->
+      <button id="signal-btn" class="blue-btn small" onclick="getMinesSignal()">НОВЫЙ СИГНАЛ</button>
     </div>
   </div>
 
@@ -79,7 +85,7 @@ Telegram?.WebApp?.expand();
 
 let minesCount = 7;
 let minesField = [];
-let isFirstLuckySignal = true;  // ← Первый сигнал x4.20
+let isFirstLuckySignal = true;
 
 const closedCells = [
   "image_95509 (1).svg","image_89353 (1).svg","image_82645 (1).svg","image_75949 (1).svg",
@@ -93,7 +99,7 @@ const closedCells = [
 
 // НАВИГАЦИЯ
 function openLuckyJet() { hideAll(); document.getElementById('luckyjet').classList.remove('hidden'); }
-function openMines()    { hideAll(); document.getElementById('mines').classList.remove('hidden'); startMinesGrid(); } // ← Сразу рисуем сетку!
+function openMines()    { hideAll(); document.getElementById('mines').classList.remove('hidden'); createMinesGrid(); }
 function backToMenu()   { hideAll(); document.getElementById('menu').classList.remove('hidden'); }
 function hideAll() { document.querySelectorAll('.game-screen, #menu').forEach(el => el.classList.add('hidden')); }
 
@@ -116,7 +122,7 @@ function generateLuckySignal() {
       coeff = 4.20;
       isFirstLuckySignal = false;
     } else {
-      coeff = (Math.random() * 18.5 + 1.5).toFixed(2); // от 1.50 до 20.00
+      coeff = (Math.random() * 18.5 + 1.5).toFixed(2);
     }
     document.getElementById('multiplier').textContent = `x${coeff}`;
     Telegram?.WebApp?.showAlert(`СИГНАЛ x${coeff}\nУЛЁТ 100% — СТАВЬ СЕЙЧАС!`);
@@ -126,9 +132,8 @@ function generateLuckySignal() {
   }, 1800);
 }
 
-// === MINES ===
-// Сразу показываем закрытую сетку при входе
-function startMinesGrid() {
+// === MINES — ПОЛНОСТЬЮ ОБНОВЛЯЕТСЯ КАЖДЫЙ РАЗ ===
+function createMinesGrid() {
   const field = document.getElementById('mines-field');
   field.innerHTML = '';
   document.getElementById('opened').textContent = '0';
@@ -136,8 +141,10 @@ function startMinesGrid() {
   for (let i = 0; i < 25; i++) {
     const div = document.createElement('div');
     div.className = 'mine-tile';
-    div.innerHTML = `<img class="closed" src="assets/mines/cells/${closedCells[i]}">
-                     <img class="star" src="assets/mines/star.svg">`;
+    div.innerHTML = `
+      <img class="closed" src="assets/mines/cells/${closedCells[i]}">
+      <img class="star" src="assets/mines/star.svg">
+    `;
     field.appendChild(div);
   }
 }
@@ -149,7 +156,8 @@ function setMines(n) {
 }
 
 function getMinesSignal() {
-  // Генерируем мины
+  createMinesGrid(); // ← Каждый раз НОВАЯ СЕТКА!
+
   minesField = Array(25).fill('star');
   const bombs = new Set();
   while (bombs.size < minesCount) bombs.add(Math.floor(Math.random() * 25));
@@ -161,15 +169,10 @@ function getMinesSignal() {
 
   setTimeout(() => {
     const tiles = document.querySelectorAll('.mine-tile');
-
-    const openCount = minesCount === 1 ? 10 :
-                      minesCount === 3 ? 8 :
-                      minesCount === 5 ? 6 : 4;
+    const openCount = minesCount === 1 ? 10 : minesCount === 3 ? 8 : minesCount === 5 ? 6 : 4;
 
     const safe = [];
     for (let i = 0; i < 25; i++) if (minesField[i] === 'star') safe.push(i);
-    
-    // Перемешиваем
     for (let i = safe.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [safe[i], safe[j]] = [safe[j], safe[i]];
