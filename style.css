@@ -1,61 +1,245 @@
 * { margin:0; padding:0; box-sizing:border-box; }
-body, html { background:#000; color:#fff; font-family:Arial, sans-serif; height:100vh; overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; }
+body, html { 
+  background:#000; 
+  color:#fff; 
+  font-family:Arial, sans-serif; 
+  height:100vh; 
+  overflow:hidden; 
+  user-select:none; 
+  -webkit-tap-highlight-color:transparent; 
+}
 .hidden { display:none !important; }
 
-/* Меню */
-#menu { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; background:radial-gradient(circle at center,#1a0033,#000); text-align:center; }
-#menu h1 { font-size:42px; margin-bottom:80px; text-shadow:0 0 30px #e040fb; }
-.game-btn { width:88%; max-width:380px; margin:15px; padding:28px; background:linear-gradient(45deg,#9c27b0,#d81b60); border:none; border-radius:30px; color:#fff; font-size:28px; font-weight:bold; cursor:pointer; box-shadow:0 14px 45px rgba(156,39,176,0.7); transition:0.3s; }
+/* === МЕНЮ === */
+#menu { 
+  height:100vh; 
+  display:flex; 
+  flex-direction:column; 
+  justify-content:center; 
+  align-items:center; 
+  background:radial-gradient(circle at center,#1a0033,#000); 
+  text-align:center; 
+}
+#menu h1 { 
+  font-size:42px; 
+  margin-bottom:80px; 
+  text-shadow:0 0 30px #e040fb; 
+}
+.game-btn { 
+  width:88%; 
+  max-width:380px; 
+  margin:15px; 
+  padding:28px; 
+  background:linear-gradient(45deg,#9c27b0,#d81b60); 
+  border:none; 
+  border-radius:30px; 
+  color:#fff; 
+  font-size:28px; 
+  font-weight:bold; 
+  cursor:pointer; 
+  box-shadow:0 14px 45px rgba(156,39,176,0.7); 
+  transition:0.3s; 
+}
 .game-btn:hover { transform:scale(1.06); }
 
-/* Общее */
-.game-screen { height:100vh; position:relative; background:#0a001f; }
-.back { position:absolute; left:15px; top:15px; background:none; border:none; color:#fff; font-size:30px; cursor:pointer; z-index:100; }
+/* === ОБЩЕЕ === */
+.game-screen { 
+  height:100vh; 
+  position:relative; 
+  background:#0a001f; 
+}
+.back { 
+  position:absolute; 
+  left:15px; 
+  top:15px; 
+  background:none; 
+  border:none; 
+  color:#fff; 
+  font-size:30px; 
+  cursor:pointer; 
+  z-index:100; 
+}
 
-/* Lucky Jet */
-#preview { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; z-index:9999; }
+/* === LUCKY JET === */
+#preview { 
+  position:fixed; top:0; left:0; width:100%; height:100%; background:#000; 
+  display:flex; flex-direction:column; justify-content:center; align-items:center; 
+  cursor:pointer; z-index:9999; 
+}
 #preview img { width:90%; max-width:400px; border-radius:20px; }
-.play-btn { margin-top:30px; background:#00ff00; color:#000; padding:18px 50px; border-radius:50px; font-weight:bold; font-size:22px; box-shadow:0 0 25px #0f0; animation:pulse 1.5s infinite; }
+.play-btn { 
+  margin-top:30px; 
+  background:#00ff00; 
+  color:#000; 
+  padding:18px 50px; 
+  border-radius:50px; 
+  font-weight:bold; 
+  font-size:22px; 
+  box-shadow:0 0 25px #0f0; 
+  animation:pulse 1.5s infinite; 
+}
+
+#game-bg.moving-bg {
+  position:absolute; 
+  width:200%; 
+  height:100%; 
+  object-fit:cover; 
+  animation: moveBg 140s linear infinite;
+  filter:brightness(0.8);
+}
+@keyframes moveBg {
+  0% { transform:translateX(0); }
+  100% { transform:translateX(-50%); }
+}
+
+#stars { 
+  position:absolute; width:100%; height:100%; 
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="20" cy="20" r="1" fill="white"/><circle cx="70" cy="10" r="1.5" fill="white"/><circle cx="40" cy="60" r="1" fill="white"/></svg>') repeat; 
+  background-size:90px; 
+  opacity:0.7; 
+  animation:twinkle 8s infinite; 
+}
+#clouds { 
+  position:absolute; width:200%; height:40%; bottom:0; 
+  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30"><path d="M0,25 Q15,20 30,25 T60,25 Q75,20 90,25 L100,30 L0,30 Z" fill="%236a1b9a" opacity="0.25"/></svg>') repeat-x; 
+  background-size:180px 60px; 
+  animation:clouds 60s linear infinite; 
+}
 
 #header-title { position:absolute; top:30px; left:50%; transform:translateX(-50%); width:260px; z-index:100; }
-#game-bg { position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.85; filter:brightness(0.75); z-index:1; }
-#stars { position:absolute; width:100%; height:100%; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="20" cy="20" r="1" fill="white"/><circle cx="50" cy="10" r="1.5" fill="white"/></svg>') repeat; background-size:80px; opacity:0.6; animation:twinkle 7s infinite; z-index:2; }
-#clouds { position:absolute; width:200%; height:40%; bottom:0; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30"><path d="M0,25 Q15,20 30,25 T60,25 Q75,20 90,25 L100,30 L0,30 Z" fill="%236a1b9a" opacity="0.3"/></svg>') repeat-x; background-size:150px 60px; animation:clouds 50s linear infinite; z-index:2; }
-
-#preloader { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:999; }
+#preloader { 
+  position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.97); 
+  display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:999; 
+}
 .loader { width:80px; height:80px; animation:spin 1.5s linear infinite; }
 
-#center-orbit { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:280px; height:280px; z-index:10; }
-#multiplier { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:76px; font-weight:bold; color:#e040fb; text-shadow:0 0 30px #e040fb; z-index:5; }
-#jetman-container { position:absolute; width:120px; height:120px; top:50%; left:50%; transform:translate(-50%,-50%); animation:orbit 8s linear infinite; z-index:10; }
-#jetman { position:absolute; width:100px; top:50%; left:50%; transform:translate(-50%,-50%); filter:drop-shadow(0 0 20px #ff9800); }
-#fire { position:absolute; width:60px; bottom:-35px; left:50%; transform:translateX(-50%); animation:fire 0.3s infinite alternate; }
+#center-orbit { 
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:280px; height:280px; z-index:10; 
+}
+#multiplier { 
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); 
+  font-size:76px; font-weight:bold; color:#e040fb; text-shadow:0 0 30px #e040fb; z-index:5; 
+}
+#jetman-container { 
+  position:absolute; width:120px; height:120px; top:50%; left:50%; 
+  transform:translate(-50%,-50%); 
+  animation:orbit 10s linear infinite; 
+}
+#jetman { 
+  position:absolute; width:100px; top:50%; left:50%; transform:translate(-50%,-50%); 
+  filter:drop-shadow(0 0 20px #ff9800); 
+}
+#fire { 
+  position:absolute; width:60px; bottom:-35px; left:50%; transform:translateX(-50%); 
+  animation:fire 0.3s infinite alternate; 
+}
 
-#get-signal { position:absolute; bottom:9%; left:50%; transform:translateX(-50%); background:#9c27b0; color:#fff; border:none; padding:18px 42px; border-radius:50px; font-weight:bold; font-size:22px; cursor:pointer; box-shadow:0 0 35px #ba68c8; z-index:15; }
+#get-signal { 
+  position:absolute; bottom:9%; left:50%; transform:translateX(-50%); 
+  background:#9c27b0; color:#fff; border:none; padding:18px 42px; 
+  border-radius:50px; font-weight:bold; font-size:22px; cursor:pointer; 
+  box-shadow:0 0 35px #ba68c8; z-index:15; 
+}
 #get-signal:disabled { background:#666; }
 
-/* Мины */
-#mines-field { display:grid; grid-template-columns:repeat(5,1fr); gap:11px; max-width:460px; margin:70px auto 0; padding:0 15px; }
-.mine-tile { position:relative; aspect-ratio:1; cursor:pointer; border-radius:16px; overflow:hidden; box-shadow:0 8px 25px rgba(0,212,255,0.3); transition:transform .3s; }
-.mine-tile:hover { transform:scale(1.07); }
-.mine-tile img.closed { width:100%; height:100%; transition:opacity .4s ease; }
+/* === MINES — СИНИЙ СТИЛЬ === */
+.mines-title {
+  text-align: center;
+  font-size: 38px;
+  margin: 25px 0 15px;
+  color: #00d4ff;
+  text-shadow: 0 0 25px #00aaff;
+}
+
+#mines-field { 
+  display:grid; 
+  grid-template-columns:repeat(5,1fr); 
+  gap:11px; 
+  max-width:460px; 
+  margin:20px auto 0; 
+  padding:0 15px; 
+}
+.mine-tile { 
+  position:relative; 
+  aspect-ratio:1; 
+  border-radius:16px; 
+  overflow:hidden; 
+  box-shadow:0 8px 25px rgba(0,170,255,0.3); 
+}
+.mine-tile img.closed { 
+  width:100%; height:100%; 
+  transition:opacity 0.5s ease; 
+}
 .mine-tile.opened img.closed { opacity:0; }
-.mine-tile .star { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(0); width:48px; height:48px; transition:transform .5s ease; }
-.mine-tile.opened .star { transform:translate(-50%,-50%) scale(1); }
+.mine-tile .star { 
+  position:absolute; top:50%; left:50%; 
+  transform:translate(-50%,-50%) scale(0); 
+  width:48px; height:48px; 
+  transition:transform 0.6s ease; 
+}
+.mine-tile.opened .star { 
+  transform:translate(-50%,-50%) scale(1); 
+}
 
-.mines-panel { position:fixed; bottom:0; left:0; right:0; background:linear-gradient(180deg,#1a0033,#0f001f); padding:20px; text-align:center; border-top:2px solid #9c27b0; }
-.mines-count span { font-size:20px; color:#e91e63; margin-right:10px; }
-.count-btns button { margin:0 4px; padding:10px 16px; background:#333; border:none; border-radius:12px; color:#fff; font-weight:bold; cursor:pointer; }
-.count-btns button.active { background:#9c27b0; box-shadow:0 0 20px #9c27b0; }
-.mines-info { margin:15px 0; font-size:22px; }
-#coeff { color:#00ff9d; font-size:42px; font-weight:bold; text-shadow:0 0 20px #00ff9d; }
-#signal-btn { background:linear-gradient(45deg,#ff6b35,#f7931e); color:#fff; padding:22px 80px; border-radius:50px; font-size:26px; font-weight:bold; border:none; cursor:pointer; box-shadow:0 12px 35px rgba(255,107,53,0.6); transition:0.3s; }
-#signal-btn:disabled { opacity:0.6; }
+.mines-panel.blue {
+  position:fixed; bottom:0; left:0; right:0;
+  background:linear-gradient(180deg,#001122,#000b1f);
+  padding:20px;
+  text-align:center;
+  border-top:3px solid #00d4ff;
+  box-shadow:0 0 35px rgba(0,212,255,0.5);
+}
 
-/* Анимации */
+.mines-count span { 
+  font-size:20px; 
+  color:#00eeff; 
+  margin-right:10px; 
+}
+.count-btns button {
+  margin:0 5px;
+  padding:12px 18px;
+  background:#002233;
+  border:2px solid #004466;
+  border-radius:14px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+.count-btns button.active {
+  background:#0088ff !important;
+  border-color:#00ccff;
+  box-shadow:0 0 30px #0088ff;
+  transform:scale(1.1);
+}
+
+.mines-info {
+  margin:18px 0;
+  font-size:26px;
+  color:#00eeff;
+}
+
+#signal-btn.blue-btn {
+  background:linear-gradient(45deg,#0066ff,#00aaff);
+  color:#fff;
+  padding:22px 90px;
+  border-radius:50px;
+  font-size:26px;
+  font-weight:bold;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 12px 40px rgba(0,102,255,0.7);
+  transition:0.3s;
+}
+#signal-btn.blue-btn:disabled { opacity:0.6; }
+
+/* АНИМАЦИИ */
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
-@keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.1); } }
+@keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
 @keyframes twinkle { 0%,100% { opacity:0.6; } 50% { opacity:0.9; } }
-@keyframes clouds { from { background-position:0 0; } to { background-position:-300px 0; } }
-@keyframes fire { 0% { opacity:0.8; } 100% { opacity:1; transform:scale(1.15) translateY(-6px); } }
-@keyframes orbit { 0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); } 100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); } }
+@keyframes clouds { from { background-position:0 0; } to { background-position:-400px 0; } }
+@keyframes fire { 0% { opacity:0.8; } 100% { opacity:1; transform:scale(1.2) translateY(-6px); } }
+@keyframes orbit { 
+  0% { transform:translate(-50%,-50%) rotate(0deg) translateX(140px) rotate(0deg); } 
+  100% { transform:translate(-50%,-50%) rotate(360deg) translateX(140px) rotate(-360deg); } 
+}
