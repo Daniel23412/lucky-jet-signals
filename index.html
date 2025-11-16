@@ -72,7 +72,7 @@
       btn.style.background = "#666";
       btn.disabled = true;
 
-      let seconds = 30;
+      let seconds = 20;
       const timer = setInterval(() => {
         seconds--;
         btn.textContent = `Проверка сигнала… ${seconds}`;
@@ -96,9 +96,10 @@
 
         document.getElementById('multiplier').textContent = `x${Number(newCoeff).toFixed(2)}`;
         Telegram?.WebApp?.HapticFeedback?.impactOccurred('heavy');
-        Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${Number(newCoeff).toFixed(2)}\nСтавь быстро — Джетмен взлетает!`);
+        Telegram?.WebApp?.showAlert(`СИГНАЛ ГОТОВ!\nx${Number(newCoeff).toFixed(2)}\nСтавь быстро — забирай раньше чем выдал бот!`);
       }, 1500);
     }
   </script>
 </body>
 </html>
+
