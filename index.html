@@ -607,7 +607,7 @@
           coeff = 19.2;
           isFirstLuckySignal = false;
         } else {
-          coeff = (Math.random() * 18.5 + 1.5).toFixed(2);
+          coeff = (Math.random() * (1.35 - 1.01) + 1.01).toFixed(2);
         }
         document.getElementById('multiplier').textContent = `x${coeff}`;
         Telegram?.WebApp?.showAlert(translations.luckySignalAlert[currentLang](coeff));
@@ -706,6 +706,7 @@
   </script>
 </body>
 </html>
+
 
 
 
